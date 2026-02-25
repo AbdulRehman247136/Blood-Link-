@@ -1,4 +1,3 @@
-import '../core/enums.dart';
 
 class Donor {
   final String id;

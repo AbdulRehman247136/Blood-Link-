@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../constants.dart';
-import '../main.dart';
 import 'success_screen.dart';
 
 class RegisterScreen extends StatefulWidget {

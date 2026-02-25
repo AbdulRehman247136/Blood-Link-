@@ -74,7 +74,7 @@ class _Header extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    greeting + ',',
+                    '$greeting,',
                     style: AppTextStyles.body2.copyWith(
                       color: AppColors.textSecondary,
                     ),

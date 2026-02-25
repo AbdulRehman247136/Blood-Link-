@@ -125,8 +125,9 @@ class _DonorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color statusColor;
-    if (status == 'Critical') statusColor = AppColors.primary;
-    else if (status == 'Low') statusColor = Colors.orange;
+    if (status == 'Critical') {
+      statusColor = AppColors.primary;
+    } else if (status == 'Low') statusColor = Colors.orange;
     else statusColor = Colors.green;
 
     return Container(

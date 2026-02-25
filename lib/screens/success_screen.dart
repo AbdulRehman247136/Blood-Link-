@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import '../constants.dart';
-import '../main.dart';
 import 'main_screen.dart';
 
 class RegistrationSuccessScreen extends StatelessWidget {

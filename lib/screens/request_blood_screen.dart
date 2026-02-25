@@ -9,9 +9,9 @@ class RequestBloodScreen extends StatefulWidget {
 }
 
 class _RequestBloodScreenState extends State<RequestBloodScreen> {
-  String _selectedBloodType = 'O+';
+  final String _selectedBloodType = 'O+';
   int _units = 1;
-  String _urgency = 'Urgent';
+  final String _urgency = 'Urgent';
   final _hospitalCtrl = TextEditingController();
   final _notesCtrl = TextEditingController();
   bool _submitted = false;

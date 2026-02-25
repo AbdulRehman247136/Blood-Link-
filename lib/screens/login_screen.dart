@@ -1,9 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../constants.dart';
-import '../main.dart';
 import 'main_screen.dart';
 import 'register_screen.dart';
 
@@ -13,12 +11,13 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin {
+class _LoginScreenState extends State<LoginScreen>
+    with TickerProviderStateMixin {
   final _emailCtrl = TextEditingController();
   final _passCtrl = TextEditingController();
   bool _obscure = true;
   bool _loading = false;
-  
+
   late AnimationController _waveController;
 
   @override
@@ -80,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                 ),
               ),
             ),
-            
+
             AnimatedBuilder(
               animation: _waveController,
               builder: (context, child) {
@@ -105,7 +104,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                 child: Column(
                   children: [
                     const SizedBox(height: 60),
-                    
+
                     // Logo Section
                     TweenAnimationBuilder(
                       tween: Tween<double>(begin: 0, end: 1),
@@ -126,21 +125,27 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                               borderRadius: BorderRadius.circular(22),
                               boxShadow: AppShadows.primaryGlow,
                             ),
-                            child: const Icon(Icons.bloodtype, color: Colors.white, size: 40),
+                            child: const Icon(
+                              Icons.bloodtype,
+                              color: Colors.white,
+                              size: 40,
+                            ),
                           ),
                           const SizedBox(height: 16),
                           Text('BloodLink+', style: AppTextStyles.heading1),
                           const SizedBox(height: 4),
                           Text(
                             'Saving lives, connecting heroes.',
-                            style: AppTextStyles.subtitle2.copyWith(color: AppColors.primaryLight.withOpacity(0.6)),
+                            style: AppTextStyles.subtitle2.copyWith(
+                              color: AppColors.primaryLight.withOpacity(0.6),
+                            ),
                           ),
                         ],
                       ),
                     ),
-                    
+
                     const SizedBox(height: 48),
-                    
+
                     // Glass Card Login
                     ClipRRect(
                       borderRadius: BorderRadius.circular(24),
@@ -156,14 +161,19 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('Welcome Back', style: AppTextStyles.heading2),
+                              Text(
+                                'Welcome Back',
+                                style: AppTextStyles.heading2,
+                              ),
                               const SizedBox(height: 8),
                               Text(
                                 'Secure login for donors and hospitals',
-                                style: AppTextStyles.body2.copyWith(color: Colors.white54),
+                                style: AppTextStyles.body2.copyWith(
+                                  color: Colors.white54,
+                                ),
                               ),
                               const SizedBox(height: 32),
-                              
+
                               // Email Input
                               _CustomTextField(
                                 controller: _emailCtrl,
@@ -171,7 +181,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                                 icon: Icons.mail_outline_rounded,
                               ),
                               const SizedBox(height: 20),
-                              
+
                               // Password Input
                               _CustomTextField(
                                 controller: _passCtrl,
@@ -179,28 +189,33 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                                 icon: Icons.lock_outline_rounded,
                                 obscure: _obscure,
                                 suffix: IconButton(
-                                  onPressed: () => setState(() => _obscure = !_obscure),
+                                  onPressed: () =>
+                                      setState(() => _obscure = !_obscure),
                                   icon: Icon(
-                                    _obscure ? Icons.visibility_off_rounded : Icons.visibility_rounded,
+                                    _obscure
+                                        ? Icons.visibility_off_rounded
+                                        : Icons.visibility_rounded,
                                     color: Colors.white38,
                                     size: 20,
                                   ),
                                 ),
                               ),
-                              
+
                               Align(
                                 alignment: Alignment.centerRight,
                                 child: TextButton(
                                   onPressed: () {},
                                   child: Text(
                                     'Forgot Password?',
-                                    style: AppTextStyles.caption.copyWith(color: Colors.white54),
+                                    style: AppTextStyles.caption.copyWith(
+                                      color: Colors.white54,
+                                    ),
                                   ),
                                 ),
                               ),
-                              
+
                               const SizedBox(height: 12),
-                              
+
                               // Submit Button
                               SizedBox(
                                 width: double.infinity,
@@ -208,21 +223,30 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                                 child: ElevatedButton(
                                   onPressed: _loading ? null : _login,
                                   style: ElevatedButton.styleFrom(
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(28),
+                                    ),
                                     backgroundColor: AppColors.primary,
                                   ),
                                   child: _loading
                                       ? const SizedBox(
                                           width: 24,
                                           height: 24,
-                                          child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
+                                          child: CircularProgressIndicator(
+                                            color: Colors.white,
+                                            strokeWidth: 2,
+                                          ),
                                         )
                                       : const Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
                                             Text('Login'),
                                             SizedBox(width: 8),
-                                            Icon(Icons.arrow_forward_rounded, size: 20),
+                                            Icon(
+                                              Icons.arrow_forward_rounded,
+                                              size: 20,
+                                            ),
                                           ],
                                         ),
                                 ),
@@ -232,49 +256,83 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                         ),
                       ),
                     ),
-                    
+
                     const SizedBox(height: 32),
-                    
+
                     // Footer Actions
                     Row(
                       children: [
-                        Expanded(child: Divider(color: Colors.white.withOpacity(0.1))),
+                        Expanded(
+                          child: Divider(color: Colors.white.withOpacity(0.1)),
+                        ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: Text('OR', style: AppTextStyles.caption.copyWith(color: Colors.white24)),
+                          child: Text(
+                            'OR',
+                            style: AppTextStyles.caption.copyWith(
+                              color: Colors.white24,
+                            ),
+                          ),
                         ),
-                        Expanded(child: Divider(color: Colors.white.withOpacity(0.1))),
+                        Expanded(
+                          child: Divider(color: Colors.white.withOpacity(0.1)),
+                        ),
                       ],
                     ),
-                    
+
                     const SizedBox(height: 32),
-                    
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("Don't have an account?", style: AppTextStyles.body2.copyWith(color: Colors.white38)),
+                        Text(
+                          "Don't have an account?",
+                          style: AppTextStyles.body2.copyWith(
+                            color: Colors.white38,
+                          ),
+                        ),
                         TextButton(
-                          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const RegisterScreen())),
+                          onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const RegisterScreen(),
+                            ),
+                          ),
                           child: Text(
                             'Sign Up',
-                            style: AppTextStyles.body2.copyWith(color: AppColors.primary, fontWeight: FontWeight.w700),
+                            style: AppTextStyles.body2.copyWith(
+                              color: AppColors.primary,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
                         ),
                       ],
                     ),
-                    
+
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const MainScreen()),
+                      ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text('Continue as Guest', style: AppTextStyles.body2.copyWith(color: Colors.white38)),
+                          Text(
+                            'Continue as Guest',
+                            style: AppTextStyles.body2.copyWith(
+                              color: Colors.white38,
+                            ),
+                          ),
                           const SizedBox(width: 4),
-                          const Icon(Icons.chevron_right_rounded, color: Colors.white38, size: 18),
+                          const Icon(
+                            Icons.chevron_right_rounded,
+                            color: Colors.white38,
+                            size: 18,
+                          ),
                         ],
                       ),
                     ),
-                    
+
                     const SizedBox(height: 40),
                   ],
                 ),
@@ -329,7 +387,10 @@ class _CustomTextField extends StatelessWidget {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(28),
-              borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
+              borderSide: const BorderSide(
+                color: AppColors.primary,
+                width: 1.5,
+              ),
             ),
           ),
         ),
@@ -350,7 +411,7 @@ class WavePainter extends CustomPainter {
 
     final path = Path();
     path.moveTo(0, size.height * 0.5);
-    
+
     // Create a series of quadratic bezier curves for the wave
     for (var i = 0; i < 4; i++) {
       path.quadraticBezierTo(
@@ -360,7 +421,7 @@ class WavePainter extends CustomPainter {
         size.height * 0.5,
       );
     }
-    
+
     path.lineTo(size.width, 0);
     path.lineTo(0, 0);
     path.close();

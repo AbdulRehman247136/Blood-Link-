@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import '../constants.dart';
+import 'contact_donor_screen.dart';
 
 class DonorsScreen extends StatefulWidget {
   const DonorsScreen({super.key});
@@ -10,11 +11,41 @@ class DonorsScreen extends StatefulWidget {
 
 class _DonorsScreenState extends State<DonorsScreen> {
   final donors = [
-    {'name': 'Ayesha Khan', 'type': 'O+', 'last': '20 days', 'distance': '2.4 km', 'available': true},
-    {'name': 'Omar Farooq', 'type': 'B+', 'last': '60 days', 'distance': '3.8 km', 'available': true},
-    {'name': 'Bilal Ahmed', 'type': 'A+', 'last': '45 days', 'distance': '5.1 km', 'available': false},
-    {'name': 'Sara Malik', 'type': 'B-', 'last': '12 days', 'distance': '1.2 km', 'available': true},
-    {'name': 'Usman Ali', 'type': 'AB+', 'last': '90 days', 'distance': '10 km', 'available': false},
+    {
+      'name': 'Ayesha Khan',
+      'type': 'O+',
+      'last': '20 days',
+      'distance': '2.4 km',
+      'available': true,
+    },
+    {
+      'name': 'Omar Farooq',
+      'type': 'B+',
+      'last': '60 days',
+      'distance': '3.8 km',
+      'available': true,
+    },
+    {
+      'name': 'Bilal Ahmed',
+      'type': 'A+',
+      'last': '45 days',
+      'distance': '5.1 km',
+      'available': false,
+    },
+    {
+      'name': 'Sara Malik',
+      'type': 'B-',
+      'last': '12 days',
+      'distance': '1.2 km',
+      'available': true,
+    },
+    {
+      'name': 'Usman Ali',
+      'type': 'AB+',
+      'last': '90 days',
+      'distance': '10 km',
+      'available': false,
+    },
   ];
 
   String query = '';
@@ -22,7 +53,10 @@ class _DonorsScreenState extends State<DonorsScreen> {
   @override
   Widget build(BuildContext context) {
     final filtered = donors
-        .where((d) => (d['name'] as String).toLowerCase().contains(query.toLowerCase()))
+        .where(
+          (d) =>
+              (d['name'] as String).toLowerCase().contains(query.toLowerCase()),
+        )
         .toList();
 
     return Column(
@@ -41,8 +75,14 @@ class _DonorsScreenState extends State<DonorsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Donors', style: AppTextStyles.heading2.copyWith(color: Colors.white)),
-              Text('Find a donor near you', style: AppTextStyles.body2.copyWith(color: Colors.white70)),
+              Text(
+                'Donors',
+                style: AppTextStyles.heading2.copyWith(color: Colors.white),
+              ),
+              Text(
+                'Find a donor near you',
+                style: AppTextStyles.body2.copyWith(color: Colors.white70),
+              ),
               const SizedBox(height: 14),
               Container(
                 decoration: BoxDecoration(
@@ -54,8 +94,13 @@ class _DonorsScreenState extends State<DonorsScreen> {
                   onChanged: (v) => setState(() => query = v),
                   decoration: InputDecoration(
                     hintText: 'Search donors by name…',
-                    hintStyle: AppTextStyles.body1.copyWith(color: AppColors.textMuted),
-                    prefixIcon: const Icon(Icons.search_rounded, color: AppColors.primary),
+                    hintStyle: AppTextStyles.body1.copyWith(
+                      color: AppColors.textMuted,
+                    ),
+                    prefixIcon: const Icon(
+                      Icons.search_rounded,
+                      color: AppColors.primary,
+                    ),
                     border: InputBorder.none,
                     contentPadding: const EdgeInsets.symmetric(vertical: 14),
                   ),
@@ -117,9 +162,16 @@ class _SmallStat extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Text(value, style: AppTextStyles.subtitle1.copyWith(color: AppColors.primary)),
+            Text(
+              value,
+              style: AppTextStyles.subtitle1.copyWith(color: AppColors.primary),
+            ),
             const SizedBox(height: 2),
-            Text(label, style: AppTextStyles.caption, textAlign: TextAlign.center),
+            Text(
+              label,
+              style: AppTextStyles.caption,
+              textAlign: TextAlign.center,
+            ),
           ],
         ),
       ),
@@ -141,31 +193,36 @@ class _DonorCard extends StatelessWidget {
         .join()
         .toUpperCase();
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(AppBorderRadius.lg),
-        boxShadow: AppShadows.card,
+    return GestureDetector(
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => ContactDonorScreen(donor: donor)),
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(14),
-        child: Row(
-          children: [
-            // Circular avatar with availability dot
-            Stack(
-              children: [
-                Container(
-                  width: 52,
-                  height: 52,
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [Color(0xFFFFCDD2), Color(0xFFEF9A9A)],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 12),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(AppBorderRadius.lg),
+          boxShadow: AppShadows.card,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(14),
+          child: Row(
+            children: [
+              // Circular avatar with availability dot
+              Stack(
+                children: [
+                  Container(
+                    width: 52,
+                    height: 52,
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFFFFCDD2), Color(0xFFEF9A9A)],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      shape: BoxShape.circle,
                     ),
-                    shape: BoxShape.circle,
-                  ),
                   alignment: Alignment.center,
                   child: Text(
                     initials,
@@ -182,7 +239,9 @@ class _DonorCard extends StatelessWidget {
                     width: 14,
                     height: 14,
                     decoration: BoxDecoration(
-                      color: available ? AppColors.success : AppColors.textMuted,
+                      color: available
+                          ? AppColors.success
+                          : AppColors.textMuted,
                       shape: BoxShape.circle,
                       border: Border.all(color: Colors.white, width: 2),
                     ),
@@ -199,12 +258,22 @@ class _DonorCard extends StatelessWidget {
                   const SizedBox(height: 4),
                   Row(
                     children: [
-                      const Icon(Icons.location_on_rounded, size: 13, color: AppColors.textSecondary),
-                      Text(donor['distance'] as String, style: AppTextStyles.caption),
+                      const Icon(
+                        Icons.location_on_rounded,
+                        size: 13,
+                        color: AppColors.textSecondary,
+                      ),
+                      Text(
+                        donor['distance'] as String,
+                        style: AppTextStyles.caption,
+                      ),
                       const SizedBox(width: 6),
                       Text('·', style: AppTextStyles.caption),
                       const SizedBox(width: 6),
-                      Text('Last: ${donor['last']}', style: AppTextStyles.caption),
+                      Text(
+                        'Last: ${donor['last']}',
+                        style: AppTextStyles.caption,
+                      ),
                     ],
                   ),
                 ],
@@ -214,19 +283,39 @@ class _DonorCard extends StatelessWidget {
               children: [
                 // Blood group badge
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     gradient: AppColors.primaryGradient,
                     borderRadius: BorderRadius.circular(AppBorderRadius.circle),
                   ),
-                  child: Text(donor['type'] as String, style: AppTextStyles.badge),
+                  child: Text(
+                    donor['type'] as String,
+                    style: AppTextStyles.badge,
+                  ),
                 ),
                 const SizedBox(height: 8),
                 Row(
                   children: [
-                    _ActionButton(icon: Icons.call_rounded, color: AppColors.success),
+                    _ActionButton(
+                      icon: Icons.call_rounded,
+                      color: AppColors.success,
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => ContactDonorScreen(donor: donor)),
+                      ),
+                    ),
                     const SizedBox(width: 6),
-                    _ActionButton(icon: Icons.send_rounded, color: AppColors.primary),
+                    _ActionButton(
+                      icon: Icons.send_rounded,
+                      color: AppColors.primary,
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => ContactDonorScreen(donor: donor)),
+                      ),
+                    ),
                   ],
                 ),
               ],
@@ -241,18 +330,22 @@ class _DonorCard extends StatelessWidget {
 class _ActionButton extends StatelessWidget {
   final IconData icon;
   final Color color;
-  const _ActionButton({required this.icon, required this.color});
+  final VoidCallback onTap;
+  const _ActionButton({required this.icon, required this.color, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 34,
-      height: 34,
-      decoration: BoxDecoration(
-        color: color.withAlpha(20),
-        shape: BoxShape.circle,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 34,
+        height: 34,
+        decoration: BoxDecoration(
+          color: color.withAlpha(20),
+          shape: BoxShape.circle,
+        ),
+        child: Icon(icon, color: color, size: 18),
       ),
-      child: Icon(icon, color: color, size: 18),
     );
   }
 }
