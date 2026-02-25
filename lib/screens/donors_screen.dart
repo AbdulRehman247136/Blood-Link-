@@ -223,15 +223,15 @@ class _DonorCard extends StatelessWidget {
                       ),
                       shape: BoxShape.circle,
                     ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    initials,
-                    style: AppTextStyles.subtitle1.copyWith(
-                      color: AppColors.primary,
-                      fontWeight: FontWeight.w700,
+                    alignment: Alignment.center,
+                    child: Text(
+                      initials,
+                      style: AppTextStyles.subtitle1.copyWith(
+                        color: AppColors.primary,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                   ),
-                ),
                 Positioned(
                   right: 1,
                   bottom: 1,

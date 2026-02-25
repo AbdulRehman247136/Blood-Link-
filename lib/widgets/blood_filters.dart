@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import '../constants.dart';
 
-class BloodFilters extends StatelessWidget {
-  const BloodFilters({super.key});
+class BloodFilters extends StatefulWidget {
+  final Function(String?) onSelectionChanged;
+
+  const BloodFilters({super.key, required this.onSelectionChanged});
+
+  @override
+  State<BloodFilters> createState() => _BloodFiltersState();
+}
+
+class _BloodFiltersState extends State<BloodFilters> {
+  String? selectedGroup;
+  final bloodGroups = ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'];
 
   @override
   Widget build(BuildContext context) {
-    final bloodGroups = ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'];
-    String? selectedGroup;
-
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -19,11 +26,14 @@ class BloodFilters extends StatelessWidget {
             padding: const EdgeInsets.only(right: 12),
             child: GestureDetector(
               onTap: () {
-                if (isSelected) {
-                  selectedGroup = null;
-                } else {
-                  selectedGroup = group;
-                }
+                setState(() {
+                  if (isSelected) {
+                    selectedGroup = null;
+                  } else {
+                    selectedGroup = group;
+                  }
+                });
+                widget.onSelectionChanged(selectedGroup);
               },
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 300),

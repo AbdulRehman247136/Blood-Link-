@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../constants.dart';
-import '../models/donor.dart';
 
 class ContactDonorScreen extends StatefulWidget {
   final Map<String, dynamic> donor;
@@ -87,7 +86,6 @@ class _ContactDonorScreenState extends State<ContactDonorScreen> {
     final distance = widget.donor['distance'] as String;
     final lastDonated = widget.donor['last'] as String;
     final available = widget.donor['available'] as bool;
-    final phone = widget.donor['phone'] as String?;
 
     return Scaffold(
       backgroundColor: AppColors.background,
