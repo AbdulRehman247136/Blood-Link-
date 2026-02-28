@@ -1,6 +1,9 @@
-﻿import 'package:flutter/material.dart';
+﻿import 'dart:math' as math;
+
+import 'package:flutter/material.dart';
 import '../constants.dart';
 import 'donate_screen.dart';
+import 'find_screen.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -16,6 +19,8 @@ class DashboardScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const _Header(),
+              const SizedBox(height: 18),
+              const _RedFluidBanner(),
               const SizedBox(height: 24),
               const _SearchBar(),
               const SizedBox(height: 24),
@@ -109,6 +114,212 @@ class _Header extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class _RedFluidBanner extends StatefulWidget {
+  const _RedFluidBanner();
+
+  @override
+  State<_RedFluidBanner> createState() => _RedFluidBannerState();
+}
+
+class _RedFluidBannerState extends State<_RedFluidBanner>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1850),
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: Container(
+        height: 165,
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(color: AppColors.primary.withValues(alpha: 0.24)),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.primary.withValues(alpha: 0.18),
+              blurRadius: 20,
+              offset: const Offset(0, 8),
+            ),
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(24),
+          child: Stack(
+            children: [
+              Positioned.fill(
+                child: AnimatedBuilder(
+                  animation: _controller,
+                  builder: (context, child) {
+                    return CustomPaint(
+                      painter: _RedFluidPainter(progress: _controller.value),
+                    );
+                  },
+                ),
+              ),
+              Positioned.fill(
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.white.withValues(alpha: 0.08),
+                        Colors.transparent,
+                        Colors.black.withValues(alpha: 0.14),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                left: 16,
+                right: 16,
+                top: 16,
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: AppColors.primary.withValues(alpha: 0.18),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.water_drop_rounded,
+                        color: AppColors.primary,
+                        size: 20,
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        'Blood Flow Monitor',
+                        style: AppTextStyles.subtitle1,
+                      ),
+                    ),
+                    Text(
+                      'Active',
+                      style: AppTextStyles.caption.copyWith(
+                        color: AppColors.primary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Positioned(
+                left: 16,
+                right: 16,
+                bottom: 16,
+                child: Text(
+                  'Emergency blood stream visualization',
+                  style: AppTextStyles.body2.copyWith(color: Colors.white70),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _RedFluidPainter extends CustomPainter {
+  final double progress;
+
+  _RedFluidPainter({required this.progress});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final basePaint = Paint()
+      ..color = AppColors.primary.withValues(alpha: 0.30)
+      ..style = PaintingStyle.fill;
+
+    final midPaint = Paint()
+      ..color = AppColors.primary.withValues(alpha: 0.48)
+      ..style = PaintingStyle.fill;
+
+    final topPaint = Paint()
+      ..color = AppColors.primary.withValues(alpha: 0.74)
+      ..style = PaintingStyle.fill;
+
+    _drawWave(
+      canvas,
+      size,
+      paint: basePaint,
+      level: size.height * 0.70,
+      amplitude: 12,
+      speed: 1.3,
+      phase: progress * math.pi * 2,
+    );
+
+    _drawWave(
+      canvas,
+      size,
+      paint: midPaint,
+      level: size.height * 0.61,
+      amplitude: 13,
+      speed: 1.8,
+      phase: progress * math.pi * 2.5,
+    );
+
+    _drawWave(
+      canvas,
+      size,
+      paint: topPaint,
+      level: size.height * 0.53,
+      amplitude: 15,
+      speed: 2.2,
+      phase: progress * math.pi * 3,
+    );
+  }
+
+  void _drawWave(
+    Canvas canvas,
+    Size size, {
+    required Paint paint,
+    required double level,
+    required double amplitude,
+    required double speed,
+    required double phase,
+  }) {
+    final path = Path()..moveTo(0, size.height);
+
+    for (double x = 0; x <= size.width; x++) {
+      final y =
+          level +
+          amplitude * math.sin((x / size.width * 2 * math.pi * speed) + phase);
+      path.lineTo(x, y);
+    }
+
+    path
+      ..lineTo(size.width, size.height)
+      ..close();
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant _RedFluidPainter oldDelegate) {
+    return oldDelegate.progress != progress;
   }
 }
 
@@ -268,7 +479,9 @@ class _SearchBar extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: GestureDetector(
         onTap: () {
-          // ref.read(navIndexProvider.notifier).state = 1; // Go to Find screen
+          Navigator.of(
+            context,
+          ).push(MaterialPageRoute(builder: (context) => const FindScreen()));
         },
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),

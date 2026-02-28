@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:bloodbanks/screens/request_blood_screen.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
@@ -25,8 +27,10 @@ class MainScreen extends StatefulWidget {
   State<MainScreen> createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _MainScreenState extends State<MainScreen>
+    with SingleTickerProviderStateMixin {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  late final AnimationController _appBarFluidController;
 
   final List<Widget> _screens = [
     const DashboardScreen(),
@@ -37,6 +41,21 @@ class _MainScreenState extends State<MainScreen> {
   final List<String> _titles = ['Home', 'Request Blood', 'Profile'];
   int _currentIndex = 0;
   _DrawerDestination _activeDrawerDestination = _DrawerDestination.home;
+
+  @override
+  void initState() {
+    super.initState();
+    _appBarFluidController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 2200),
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _appBarFluidController.dispose();
+    super.dispose();
+  }
 
   void _syncDrawerWithTab() {
     if (_currentIndex == 0) {
@@ -125,6 +144,42 @@ class _MainScreenState extends State<MainScreen> {
       drawerEnableOpenDragGesture: true,
       drawerEdgeDragWidth: 36,
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        foregroundColor: Colors.white,
+        flexibleSpace: IgnorePointer(
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              AnimatedBuilder(
+                animation: _appBarFluidController,
+                builder: (context, child) {
+                  return CustomPaint(
+                    painter: _AppBarFluidPainter(
+                      progress: _appBarFluidController.value,
+                      isDarkMode: isDarkMode,
+                    ),
+                  );
+                },
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      AppColors.primary.withValues(
+                        alpha: isDarkMode ? 0.28 : 0.22,
+                      ),
+                      Colors.black.withValues(alpha: isDarkMode ? 0.24 : 0.10),
+                      Colors.transparent,
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
         title: Text(_titles[_currentIndex]),
         leading: IconButton(
           icon: const Icon(Icons.menu_rounded),
@@ -386,5 +441,88 @@ class _DrawerNavItem extends StatelessWidget {
         onTap: onTap,
       ),
     );
+  }
+}
+
+class _AppBarFluidPainter extends CustomPainter {
+  final double progress;
+  final bool isDarkMode;
+
+  _AppBarFluidPainter({required this.progress, required this.isDarkMode});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final low = Paint()
+      ..color = AppColors.primary.withValues(alpha: isDarkMode ? 0.34 : 0.24)
+      ..style = PaintingStyle.fill;
+
+    final mid = Paint()
+      ..color = AppColors.primary.withValues(alpha: isDarkMode ? 0.50 : 0.34)
+      ..style = PaintingStyle.fill;
+
+    final high = Paint()
+      ..color = AppColors.primary.withValues(alpha: isDarkMode ? 0.62 : 0.44)
+      ..style = PaintingStyle.fill;
+
+    _drawWave(
+      canvas,
+      size,
+      paint: low,
+      level: size.height * 0.88,
+      amplitude: 10,
+      speed: 1.4,
+      phase: progress * math.pi * 2,
+    );
+
+    _drawWave(
+      canvas,
+      size,
+      paint: mid,
+      level: size.height * 0.78,
+      amplitude: 12,
+      speed: 1.9,
+      phase: progress * math.pi * 2.7,
+    );
+
+    _drawWave(
+      canvas,
+      size,
+      paint: high,
+      level: size.height * 0.70,
+      amplitude: 10,
+      speed: 2.3,
+      phase: progress * math.pi * 3.2,
+    );
+  }
+
+  void _drawWave(
+    Canvas canvas,
+    Size size, {
+    required Paint paint,
+    required double level,
+    required double amplitude,
+    required double speed,
+    required double phase,
+  }) {
+    final path = Path()..moveTo(0, size.height);
+
+    for (double x = 0; x <= size.width; x++) {
+      final y =
+          level +
+          amplitude * math.sin((x / size.width * 2 * math.pi * speed) + phase);
+      path.lineTo(x, y);
+    }
+
+    path
+      ..lineTo(size.width, size.height)
+      ..close();
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant _AppBarFluidPainter oldDelegate) {
+    return oldDelegate.progress != progress ||
+        oldDelegate.isDarkMode != isDarkMode;
   }
 }

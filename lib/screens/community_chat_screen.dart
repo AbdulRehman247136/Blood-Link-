@@ -17,6 +17,7 @@ class _CommunityChatScreenState extends State<CommunityChatScreen>
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   final ScrollController _scrollController = ScrollController();
   final TextEditingController _inputController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
 
   final List<_ChatMessage> _messages = [];
@@ -28,6 +29,8 @@ class _CommunityChatScreenState extends State<CommunityChatScreen>
   Timer? _onlineUsersTimer;
   bool _isOtherTyping = false;
   int _onlineUsers = 128;
+  bool _isSearchActive = false;
+  String _searchQuery = '';
 
   final Random _random = Random();
 
@@ -77,6 +80,7 @@ class _CommunityChatScreenState extends State<CommunityChatScreen>
     _sendController.dispose();
     _typingDotsController.dispose();
     _inputController.dispose();
+    _searchController.dispose();
     _focusNode.dispose();
     _scrollController.dispose();
     super.dispose();
@@ -176,42 +180,93 @@ class _CommunityChatScreenState extends State<CommunityChatScreen>
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
+    // Filter messages based on search query
+    final displayMessages = _searchQuery.isEmpty
+        ? _messages
+        : _messages.where((msg) {
+            return msg.text.toLowerCase().contains(
+                  _searchQuery.toLowerCase(),
+                ) ||
+                msg.userName.toLowerCase().contains(_searchQuery.toLowerCase());
+          }).toList();
+
     return Scaffold(
       appBar: AppBar(
-        leading: const BackButton(),
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text('Community Chat'),
-            AnimatedSwitcher(
-              duration: const Duration(milliseconds: 220),
-              transitionBuilder: (child, animation) => FadeTransition(
-                opacity: animation,
-                child: SizeTransition(sizeFactor: animation, child: child),
+        leading: _isSearchActive
+            ? IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () {
+                  setState(() {
+                    _isSearchActive = false;
+                    _searchQuery = '';
+                    _searchController.clear();
+                  });
+                },
+              )
+            : const BackButton(),
+        title: _isSearchActive
+            ? TextField(
+                controller: _searchController,
+                autofocus: true,
+                style: const TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  hintText: 'Search messages...',
+                  hintStyle: TextStyle(
+                    color: Colors.white.withValues(alpha: 0.5),
+                  ),
+                  border: InputBorder.none,
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    _searchQuery = value;
+                  });
+                },
+              )
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('Community Chat'),
+                  AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 220),
+                    transitionBuilder: (child, animation) => FadeTransition(
+                      opacity: animation,
+                      child: SizeTransition(
+                        sizeFactor: animation,
+                        child: child,
+                      ),
+                    ),
+                    child: Text(
+                      key: ValueKey<int>(_onlineUsers),
+                      '$_onlineUsers online',
+                      style: Theme.of(context).textTheme.labelSmall,
+                    ),
+                  ),
+                ],
               ),
-              child: Text(
-                key: ValueKey<int>(_onlineUsers),
-                '$_onlineUsers online',
-                style: Theme.of(context).textTheme.labelSmall,
-              ),
-            ),
-          ],
-        ),
         actions: [
           IconButton(
             tooltip: 'Search',
-            icon: const Icon(Icons.search_rounded),
-            onPressed: () {},
+            icon: Icon(_isSearchActive ? Icons.close : Icons.search_rounded),
+            onPressed: () {
+              setState(() {
+                _isSearchActive = !_isSearchActive;
+                if (!_isSearchActive) {
+                  _searchQuery = '';
+                  _searchController.clear();
+                }
+              });
+            },
           ),
-          PopupMenuButton<String>(
-            tooltip: 'Moderation actions',
-            onSelected: (_) {},
-            itemBuilder: (context) => const [
-              PopupMenuItem(value: 'report', child: Text('Report Message')),
-              PopupMenuItem(value: 'block', child: Text('Block User')),
-              PopupMenuItem(value: 'mute', child: Text('Mute Notifications')),
-            ],
-          ),
+          if (!_isSearchActive)
+            PopupMenuButton<String>(
+              tooltip: 'Moderation actions',
+              onSelected: (_) {},
+              itemBuilder: (context) => const [
+                PopupMenuItem(value: 'report', child: Text('Report Message')),
+                PopupMenuItem(value: 'block', child: Text('Block User')),
+                PopupMenuItem(value: 'mute', child: Text('Mute Notifications')),
+              ],
+            ),
         ],
       ),
       body: Column(
@@ -235,24 +290,68 @@ class _CommunityChatScreenState extends State<CommunityChatScreen>
             ),
           ),
           Expanded(
-            child: AnimatedList(
-              key: _listKey,
-              controller: _scrollController,
-              padding: const EdgeInsets.fromLTRB(12, 6, 12, 8),
-              physics: const BouncingScrollPhysics(),
-              initialItemCount: _messages.length,
-              itemBuilder: (context, index, animation) {
-                final message = _messages[index];
-                return FadeTransition(
-                  opacity: animation,
-                  child: SizeTransition(
-                    sizeFactor: animation,
-                    axisAlignment: -1,
-                    child: _MessageBubble(message: message),
+            child: _isSearchActive
+                ? displayMessages.isEmpty
+                      ? Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.search_off_rounded,
+                                size: 64,
+                                color: Colors.white.withValues(alpha: 0.3),
+                              ),
+                              const SizedBox(height: 16),
+                              Text(
+                                'No messages found',
+                                style: Theme.of(context).textTheme.titleMedium
+                                    ?.copyWith(
+                                      color: Colors.white.withValues(
+                                        alpha: 0.5,
+                                      ),
+                                    ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                'Try a different search term',
+                                style: Theme.of(context).textTheme.bodySmall
+                                    ?.copyWith(
+                                      color: Colors.white.withValues(
+                                        alpha: 0.3,
+                                      ),
+                                    ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : ListView.builder(
+                          controller: _scrollController,
+                          padding: const EdgeInsets.fromLTRB(12, 6, 12, 8),
+                          physics: const BouncingScrollPhysics(),
+                          itemCount: displayMessages.length,
+                          itemBuilder: (context, index) {
+                            final message = displayMessages[index];
+                            return _MessageBubble(message: message);
+                          },
+                        )
+                : AnimatedList(
+                    key: _listKey,
+                    controller: _scrollController,
+                    padding: const EdgeInsets.fromLTRB(12, 6, 12, 8),
+                    physics: const BouncingScrollPhysics(),
+                    initialItemCount: _messages.length,
+                    itemBuilder: (context, index, animation) {
+                      final message = _messages[index];
+                      return FadeTransition(
+                        opacity: animation,
+                        child: SizeTransition(
+                          sizeFactor: animation,
+                          axisAlignment: -1,
+                          child: _MessageBubble(message: message),
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
-            ),
           ),
           if (_isOtherTyping)
             Padding(

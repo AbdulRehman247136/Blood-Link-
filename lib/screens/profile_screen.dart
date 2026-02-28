@@ -1,6 +1,7 @@
 import 'package:bloodbanks/widgets/theme_toggle.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
+import 'edit_profile_screen.dart';
 import 'login_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -14,15 +15,15 @@ class ProfileScreen extends StatelessWidget {
         padding: const EdgeInsets.only(top: 60, bottom: 40),
         child: Column(
           children: [
-            _ProfileHeader(),
+            const _ProfileHeader(),
             const SizedBox(height: 32),
-            _ImpactStats(),
+            const _ImpactStats(),
             const SizedBox(height: 32),
-            _AchievementsSection(),
+            const _AchievementsSection(),
             const SizedBox(height: 32),
-            _DonationHistory(),
+            const _DonationHistory(),
             const SizedBox(height: 40),
-            _SettingsOptions(),
+            const _SettingsOptions(),
             const SizedBox(height: 20),
             _SignOutButton(context),
           ],
@@ -40,8 +41,10 @@ class _ProfileHeader extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Stack(
+            alignment: Alignment.center,
             children: [
               Container(
                 width: 100,
@@ -64,25 +67,43 @@ class _ProfileHeader extends StatelessWidget {
               Positioned(
                 bottom: 0,
                 right: 0,
-                child: Container(
-                  padding: const EdgeInsets.all(6),
-                  decoration: const BoxDecoration(
-                    color: AppColors.primary,
-                    shape: BoxShape.circle,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => const EditProfileScreen(),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(6),
+                    decoration: const BoxDecoration(
+                      color: AppColors.primary,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.edit,
+                      color: Colors.white,
+                      size: 14,
+                    ),
                   ),
-                  child: const Icon(Icons.edit, color: Colors.white, size: 14),
                 ),
               ),
             ],
           ),
           const SizedBox(height: 16),
-          Text('John Doe', style: AppTextStyles.heading2),
+          Text(
+            'John Doe',
+            style: AppTextStyles.heading2,
+            textAlign: TextAlign.center,
+          ),
           Text(
             'BloodLink+ Elite Donor',
             style: AppTextStyles.body2.copyWith(
               color: AppColors.primary,
               fontWeight: FontWeight.bold,
             ),
+            textAlign: TextAlign.center,
           ),
         ],
       ),
@@ -91,12 +112,14 @@ class _ProfileHeader extends StatelessWidget {
 }
 
 class _ImpactStats extends StatelessWidget {
+  const _ImpactStats();
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           _StatCard(
             value: '12',
@@ -136,6 +159,9 @@ class _StatCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Container(
           padding: const EdgeInsets.all(12),
@@ -146,10 +172,11 @@ class _StatCard extends StatelessWidget {
           child: Icon(icon, color: color, size: 24),
         ),
         const SizedBox(height: 8),
-        Text(value, style: AppTextStyles.heading3),
+        Text(value, style: AppTextStyles.heading3, textAlign: TextAlign.center),
         Text(
           label,
           style: AppTextStyles.caption.copyWith(color: Colors.white38),
+          textAlign: TextAlign.center,
         ),
       ],
     );
@@ -157,6 +184,8 @@ class _StatCard extends StatelessWidget {
 }
 
 class _AchievementsSection extends StatelessWidget {
+  const _AchievementsSection();
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -235,6 +264,8 @@ class _Badge extends StatelessWidget {
 }
 
 class _DonationHistory extends StatelessWidget {
+  const _DonationHistory();
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -314,6 +345,8 @@ class _HistoryItem extends StatelessWidget {
 }
 
 class _SettingsOptions extends StatelessWidget {
+  const _SettingsOptions();
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -323,6 +356,11 @@ class _SettingsOptions extends StatelessWidget {
           _OptionTile(
             title: 'Personal Information',
             icon: Icons.person_outline,
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const EditProfileScreen()),
+              );
+            },
           ),
           _OptionTile(
             title: 'Medical Records',
@@ -345,11 +383,13 @@ class _OptionTile extends StatelessWidget {
   final String title;
   final IconData icon;
   final bool isToggle;
+  final VoidCallback? onTap;
 
   const _OptionTile({
     required this.title,
     required this.icon,
     this.isToggle = false,
+    this.onTap,
   });
 
   @override
@@ -369,7 +409,7 @@ class _OptionTile extends StatelessWidget {
                 activeThumbColor: AppColors.primary,
               )
             : const Icon(Icons.chevron_right, color: Colors.white24),
-        onTap: () {},
+        onTap: onTap,
       ),
     );
   }
