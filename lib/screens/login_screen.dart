@@ -88,9 +88,14 @@ class _LoginScreenState extends State<LoginScreen>
                   left: -_waveController.value * 200,
                   child: Opacity(
                     opacity: 0.3,
-                    child: CustomPaint(
-                      size: Size(MediaQuery.of(context).size.width + 400, 150),
-                      painter: WavePainter(color: AppColors.primary),
+                    child: RepaintBoundary(
+                      child: CustomPaint(
+                        size: Size(
+                          MediaQuery.of(context).size.width + 400,
+                          150,
+                        ),
+                        painter: WavePainter(color: AppColors.primary),
+                      ),
                     ),
                   ),
                 );
@@ -430,5 +435,5 @@ class WavePainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }
