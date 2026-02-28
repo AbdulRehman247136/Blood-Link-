@@ -394,54 +394,72 @@ class _MessageBubble extends StatelessWidget {
 
   const _MessageBubble({required this.message});
 
+  Color _senderColor(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    final palette = <Color>[
+      scheme.primary,
+      scheme.secondary,
+      scheme.tertiary,
+      AppColors.primaryLight,
+      AppColors.success,
+      AppColors.warning,
+    ];
+
+    final index = message.userName.hashCode.abs() % palette.length;
+    return palette[index];
+  }
+
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final cardColor = message.isMine
-        ? AppColors.primary.withValues(alpha: isDarkMode ? 0.24 : 0.12)
+    final senderColor = _senderColor(context);
+    final bubbleColor = message.isMine
+        ? AppColors.primary.withValues(alpha: 0.85)
         : (isDarkMode ? Colors.grey.shade900 : Colors.white);
     final borderColor = message.isMine
-        ? AppColors.primary.withValues(alpha: 0.45)
-        : Theme.of(context).dividerColor;
-    final senderTextColor = message.isMine
-        ? AppColors.primaryLight
-        : Theme.of(context).textTheme.titleSmall?.color;
+        ? AppColors.primary.withValues(alpha: 0.55)
+        : senderColor.withValues(alpha: 0.35);
+    final senderTextColor = message.isMine ? Colors.white : senderColor;
     final bodyTextColor = message.isMine
         ? Colors.white
         : Theme.of(context).textTheme.bodyMedium?.color;
+    final maxBubbleWidth = MediaQuery.of(context).size.width * 0.78;
 
     return Semantics(
       label:
           'Message from ${message.isMine ? 'you' : message.userName} at ${message.timestamp}: ${message.text}',
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 2),
-        child: Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: cardColor,
-            borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: borderColor),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: isDarkMode ? 0.2 : 0.05),
-                blurRadius: 8,
-                offset: const Offset(0, 2),
+        padding: const EdgeInsets.symmetric(vertical: 6),
+        child: Align(
+          alignment: message.isMine
+              ? Alignment.centerRight
+              : Alignment.centerLeft,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: maxBubbleWidth),
+            child: Container(
+              padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
+              decoration: BoxDecoration(
+                color: bubbleColor,
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(color: borderColor),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(
+                      alpha: isDarkMode ? 0.22 : 0.06,
+                    ),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
               ),
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CircleAvatar(
                     radius: 14,
                     backgroundColor: message.isMine
-                        ? AppColors.primary
-                        : (isDarkMode
-                              ? Colors.grey.shade700
-                              : Colors.grey.shade300),
+                        ? AppColors.primaryLight
+                        : senderColor,
                     child: Text(
                       message.userName.substring(0, 1),
                       style: const TextStyle(
@@ -453,45 +471,51 @@ class _MessageBubble extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   Expanded(
-                    child: Text(
-                      message.userName,
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.w700,
-                        color: senderTextColor,
-                      ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                message.userName,
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context).textTheme.labelLarge
+                                    ?.copyWith(
+                                      fontWeight: FontWeight.w700,
+                                      color: senderTextColor,
+                                    ),
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              message.timestamp,
+                              style: Theme.of(context).textTheme.labelSmall
+                                  ?.copyWith(
+                                    color: message.isMine
+                                        ? Colors.white70
+                                        : Theme.of(
+                                            context,
+                                          ).textTheme.labelSmall?.color,
+                                  ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          message.text,
+                          style: TextStyle(
+                            color: bodyTextColor,
+                            height: 1.35,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  Text(
-                    message.timestamp,
-                    style: Theme.of(context).textTheme.labelSmall,
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 10,
-                ),
-                decoration: BoxDecoration(
-                  color: message.isMine
-                      ? AppColors.primary.withValues(alpha: 0.7)
-                      : (isDarkMode
-                            ? Colors.black.withValues(alpha: 0.25)
-                            : Colors.grey.shade100),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Text(
-                  message.text,
-                  style: TextStyle(
-                    color: bodyTextColor,
-                    height: 1.4,
-                    fontSize: 14,
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ),
