@@ -110,11 +110,53 @@ class AppColors {
     Color(0xFFFFA000),
   ];
 
-  // Dark Mode Support (future enhancement)
-  static const Color darkBackground = Color(0xFF121212);
-  static const Color darkSurface = Color(0xFF1E1E1E);
+  // Dark Mode Support (AMOLED optimized)
+  static const Color darkBackground = Color(
+    0xFF0D0D0D,
+  ); // True black for AMOLED
+  static const Color darkSurface = Color(0xFF1A1A1A);
+  static const Color darkSurfaceVariant = Color(0xFF252525);
+  static const Color darkCardBackground = Color(0xFF1A1A1A);
   static const Color darkTextPrimary = Color(0xFFFFFFFF);
   static const Color darkTextSecondary = Color(0xFFB3B3B3);
+  static const Color darkTextTertiary = Color(0xFF808080);
+  static const Color darkOutline = Color(0xFF404040);
+  static const Color darkOutlineVariant = Color(0xFF2A2A2A);
+
+  // Dark mode primary (brighter for contrast)
+  static const Color darkPrimary = Color(0xFFFF3B3B);
+  static const Color darkPrimaryContainer = Color(0xFF5C1A1A);
+  static const Color darkOnPrimaryContainer = Color(0xFFFFDAD6);
+
+  // Dark mode secondary
+  static const Color darkSecondary = Color(0xFFFFB74D);
+  static const Color darkSecondaryContainer = Color(0xFF5C3D1A);
+  static const Color darkOnSecondaryContainer = Color(0xFFFFE0B2);
+
+  // Dark mode tertiary
+  static const Color darkTertiary = Color(0xFF4DB6AC);
+  static const Color darkTertiaryContainer = Color(0xFF004D40);
+  static const Color darkOnTertiaryContainer = Color(0xFFB2DFDB);
+
+  // Dark mode status colors (brighter variants)
+  static const Color darkSuccess = Color(0xFF4CAF50);
+  static const Color darkWarning = Color(0xFFFFB300);
+  static const Color darkError = Color(0xFFFF6B6B);
+  static const Color darkInfo = Color(0xFF64B5F6);
+
+  // Dark mode containers
+  static const Color darkErrorContainer = Color(0xFF5C1A1A);
+  static const Color darkSuccessContainer = Color(0xFF1A3D1A);
+  static const Color darkWarningContainer = Color(0xFF5C4A1A);
+  static const Color darkInfoContainer = Color(0xFF1A3D5C);
+
+  // Dark mode emergency
+  static const Color darkEmergencyRed = Color(0xFFFF3B3B);
+  static const Color darkEmergencyGlow = Color(0xFFFF6B6B);
+
+  // Dark mode overlay
+  static const Color darkScrimLight = Color(0x33FFFFFF);
+  static const Color darkScrimMedium = Color(0x66FFFFFF);
 
   /// Get color based on urgency level
   static Color getBloodTypeColor(String bloodType) {
@@ -160,6 +202,24 @@ class AppColors {
         return const Color(0xFFF6F6F6);
       default:
         return surface;
+    }
+  }
+
+  /// Get dark surface color with elevation (Material You style)
+  static Color getDarkSurfaceColor(int elevation) {
+    switch (elevation) {
+      case 0:
+        return darkBackground;
+      case 1:
+        return darkSurface;
+      case 2:
+        return darkSurfaceVariant;
+      case 3:
+        return const Color(0xFF2A2A2A);
+      case 4:
+        return const Color(0xFF303030);
+      default:
+        return darkSurface;
     }
   }
 }

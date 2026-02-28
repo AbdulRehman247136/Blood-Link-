@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'constants.dart';
+import 'providers/theme_provider.dart';
+import 'theme/theme.dart';
 import 'screens/onboarding_screen.dart';
 
 void main() {
@@ -13,94 +15,71 @@ void main() {
       statusBarIconBrightness: Brightness.light,
     ),
   );
-  runApp(
-    const ProviderScope(
-      child: MyApp(),
-    ),
-  );
+  runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
 
   @override
+  ConsumerState<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangePlatformBrightness() {
+    // Update theme when system brightness changes
+    ref.read(themeProvider.notifier).onSystemBrightnessChanged();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final themeState = ref.watch(themeProvider);
+    final themeMode = ref.watch(flutterThemeModeProvider);
+
+    // Update system UI overlay based on current theme
+    final isDark = themeState.isDarkMode;
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
+        systemNavigationBarColor: isDark
+            ? const Color(0xFF0D0D0D)
+            : const Color(0xFFFAFAFA),
+        systemNavigationBarIconBrightness: isDark
+            ? Brightness.light
+            : Brightness.dark,
+      ),
+    );
+
     return MaterialApp(
       title: 'BloodLink+',
       debugShowCheckedModeBanner: false,
-      theme: _buildTheme(),
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: themeMode,
+      builder: (context, child) {
+        // Wrap with AnimatedTheme for smooth 300ms transitions
+        return AnimatedTheme(
+          data: Theme.of(context),
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+          child: child ?? const SizedBox.shrink(),
+        );
+      },
       home: const SplashScreen(),
-    );
-  }
-
-  ThemeData _buildTheme() {
-    final base = ThemeData(
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: AppColors.primary,
-        primary: AppColors.primary,
-        secondary: AppColors.secondary,
-        surface: AppColors.surface,
-        brightness: Brightness.dark,
-      ),
-      useMaterial3: true,
-      scaffoldBackgroundColor: AppColors.background,
-    );
-
-    return base.copyWith(
-      textTheme: GoogleFonts.manropeTextTheme(
-        base.textTheme,
-      ).apply(bodyColor: Colors.white, displayColor: Colors.white),
-      appBarTheme: const AppBarTheme(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        foregroundColor: Colors.white,
-        centerTitle: true,
-        systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarColor: Colors.transparent,
-          statusBarIconBrightness: Brightness.light,
-        ),
-      ),
-      cardTheme: CardThemeData(
-        elevation: 0,
-        clipBehavior: Clip.antiAlias,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppBorderRadius.lg),
-        ),
-        color: AppColors.cardBackground,
-      ),
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.primary,
-          foregroundColor: Colors.white,
-          elevation: 0,
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-          textStyle: AppTextStyles.button,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppBorderRadius.circle),
-          ),
-        ),
-      ),
-      inputDecorationTheme: InputDecorationTheme(
-        filled: true,
-        fillColor: AppColors.surfaceVariant.withOpacity(0.5),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppBorderRadius.circle),
-          borderSide: BorderSide.none,
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppBorderRadius.circle),
-          borderSide: BorderSide.none,
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppBorderRadius.circle),
-          borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
-        ),
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 24,
-          vertical: 18,
-        ),
-        hintStyle: AppTextStyles.body2.copyWith(color: Colors.white38),
-      ),
     );
   }
 }

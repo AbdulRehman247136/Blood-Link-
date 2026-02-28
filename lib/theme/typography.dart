@@ -291,4 +291,25 @@ class AppTypography {
       labelSmall: labelSmall,
     );
   }
+
+  /// Get Dark mode TextTheme
+  static TextTheme getDarkTextTheme() {
+    return TextTheme(
+      displayLarge: displayLarge.copyWith(color: AppColors.darkTextPrimary),
+      displayMedium: displayMedium.copyWith(color: AppColors.darkTextPrimary),
+      displaySmall: displaySmall.copyWith(color: AppColors.darkTextPrimary),
+      headlineLarge: headlineLarge.copyWith(color: AppColors.darkTextPrimary),
+      headlineMedium: headlineMedium.copyWith(color: AppColors.darkTextPrimary),
+      headlineSmall: headlineSmall.copyWith(color: AppColors.darkTextPrimary),
+      titleLarge: titleLarge.copyWith(color: AppColors.darkTextPrimary),
+      titleMedium: titleMedium.copyWith(color: AppColors.darkTextPrimary),
+      titleSmall: titleSmall.copyWith(color: AppColors.darkTextPrimary),
+      bodyLarge: bodyLarge.copyWith(color: AppColors.darkTextPrimary),
+      bodyMedium: bodyMedium.copyWith(color: AppColors.darkTextSecondary),
+      bodySmall: bodySmall.copyWith(color: AppColors.darkTextSecondary),
+      labelLarge: labelLarge.copyWith(color: AppColors.darkTextPrimary),
+      labelMedium: labelMedium.copyWith(color: AppColors.darkTextSecondary),
+      labelSmall: labelSmall.copyWith(color: AppColors.darkTextSecondary),
+    );
+  }
 }

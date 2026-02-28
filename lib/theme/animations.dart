@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 /// Production-ready animation duration and curve system for Blood Bank App
 /// Ensures consistent, performant animations across the app
 /// Follows Material Design motion guidelines
