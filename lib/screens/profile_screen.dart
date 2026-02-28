@@ -1,3 +1,4 @@
+import 'package:bloodbanks/widgets/theme_toggle.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
 import 'login_screen.dart';
@@ -8,7 +9,6 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.only(top: 60, bottom: 40),
@@ -218,7 +218,7 @@ class _Badge extends StatelessWidget {
             decoration: BoxDecoration(
               color: AppColors.surface,
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: color.withOpacity(0.2)),
+              border: Border.all(color: color.withValues(alpha: 0.2)),
             ),
             child: Icon(icon, color: color, size: 28),
           ),
@@ -285,7 +285,7 @@ class _HistoryItem extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.white.withOpacity(0.05)),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
       ),
       child: Row(
         children: [
@@ -331,8 +331,10 @@ class _SettingsOptions extends StatelessWidget {
           _OptionTile(
             title: 'Notification Settings',
             icon: Icons.notifications_none_outlined,
+            isToggle: true,
           ),
-          _OptionTile(title: 'App Theme', icon: Icons.dark_mode_outlined),
+          const SizedBox(height: 24),
+          const ThemeModeSelector(),
         ],
       ),
     );
@@ -342,7 +344,13 @@ class _SettingsOptions extends StatelessWidget {
 class _OptionTile extends StatelessWidget {
   final String title;
   final IconData icon;
-  const _OptionTile({required this.title, required this.icon});
+  final bool isToggle;
+
+  const _OptionTile({
+    required this.title,
+    required this.icon,
+    this.isToggle = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -354,7 +362,13 @@ class _OptionTile extends StatelessWidget {
         tileColor: AppColors.surface,
         leading: Icon(icon, color: Colors.white70, size: 22),
         title: Text(title, style: AppTextStyles.body2),
-        trailing: const Icon(Icons.chevron_right, color: Colors.white24),
+        trailing: isToggle
+            ? Switch(
+                value: true,
+                onChanged: (value) {},
+                activeThumbColor: AppColors.primary,
+              )
+            : const Icon(Icons.chevron_right, color: Colors.white24),
         onTap: () {},
       ),
     );

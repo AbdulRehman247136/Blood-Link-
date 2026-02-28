@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../constants.dart';
 import '../models/donor.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -15,10 +15,10 @@ class DonorCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.white.withOpacity(0.05)),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -35,8 +35,8 @@ class DonorCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      AppColors.primary.withOpacity(0.2),
-                      AppColors.primary.withOpacity(0.1),
+                      AppColors.primary.withValues(alpha: 0.2),
+                      AppColors.primary.withValues(alpha: 0.1),
                     ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
@@ -46,7 +46,9 @@ class DonorCard extends StatelessWidget {
                 child: Center(
                   child: Text(
                     donor.initials,
-                    style: AppTextStyles.heading3.copyWith(color: AppColors.primary),
+                    style: AppTextStyles.heading3.copyWith(
+                      color: AppColors.primary,
+                    ),
                   ),
                 ),
               ),
@@ -56,8 +58,8 @@ class DonorCard extends StatelessWidget {
                   bottom: -2,
                   child: Container(
                     padding: const EdgeInsets.all(2),
-                    decoration: const BoxDecoration(
-                      color: AppColors.background,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).scaffoldBackgroundColor,
                       shape: BoxShape.circle,
                     ),
                     child: const Icon(
@@ -84,7 +86,7 @@ class DonorCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  '${donor.hospital} · ${donor.city}',
+                  '${donor.hospital} Â· ${donor.city}',
                   style: AppTextStyles.caption.copyWith(color: Colors.white38),
                 ),
                 const SizedBox(height: 4),
@@ -94,14 +96,22 @@ class DonorCard extends StatelessWidget {
                     const SizedBox(width: 4),
                     Text(
                       'Last: ${donor.lastDonated}',
-                      style: AppTextStyles.caption.copyWith(color: Colors.white38),
+                      style: AppTextStyles.caption.copyWith(
+                        color: Colors.white38,
+                      ),
                     ),
                     const SizedBox(width: 12),
-                    const Icon(Icons.location_on, size: 12, color: Colors.white38),
+                    const Icon(
+                      Icons.location_on,
+                      size: 12,
+                      color: Colors.white38,
+                    ),
                     const SizedBox(width: 4),
                     Text(
                       donor.distance,
-                      style: AppTextStyles.caption.copyWith(color: Colors.white38),
+                      style: AppTextStyles.caption.copyWith(
+                        color: Colors.white38,
+                      ),
                     ),
                   ],
                 ),
@@ -146,13 +156,16 @@ class _BloodBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       decoration: BoxDecoration(
-        color: AppColors.primary.withOpacity(0.1),
+        color: AppColors.primary.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: AppColors.primary.withOpacity(0.2)),
+        border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
       ),
       child: Text(
         type,
-        style: AppTextStyles.badge.copyWith(color: AppColors.primary, fontWeight: FontWeight.bold),
+        style: AppTextStyles.badge.copyWith(
+          color: AppColors.primary,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }
@@ -162,7 +175,11 @@ class _ActionIcon extends StatelessWidget {
   final IconData icon;
   final Color color;
   final VoidCallback onTap;
-  const _ActionIcon({required this.icon, required this.color, required this.onTap});
+  const _ActionIcon({
+    required this.icon,
+    required this.color,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -171,7 +188,7 @@ class _ActionIcon extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
+          color: color.withValues(alpha: 0.1),
           shape: BoxShape.circle,
         ),
         child: Icon(icon, color: color, size: 20),
@@ -179,3 +196,4 @@ class _ActionIcon extends StatelessWidget {
     );
   }
 }
+

@@ -1,7 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:animate_do/animate_do.dart';
+﻿import 'package:flutter/material.dart';
 import '../constants.dart';
-import '../widgets/donor_card.dart';
 import 'donate_screen.dart';
 
 class DashboardScreen extends StatelessWidget {
@@ -10,7 +8,6 @@ class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -87,7 +84,7 @@ class _Header extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.1),
+              color: AppColors.primary.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: AppColors.primary.withAlpha(50)),
             ),
@@ -165,7 +162,7 @@ class _StatItem extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.surface,
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: Colors.white.withOpacity(0.05)),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -203,13 +200,13 @@ class _EmergencyToggleState extends State<_EmergencyToggle> {
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: isEmergency
-              ? AppColors.primary.withOpacity(0.1)
+              ? AppColors.primary.withValues(alpha: 0.1)
               : AppColors.surface,
           borderRadius: BorderRadius.circular(24),
           border: Border.all(
             color: isEmergency
                 ? AppColors.primary
-                : Colors.white.withOpacity(0.05),
+                : Colors.white.withValues(alpha: 0.05),
           ),
         ),
         child: Row(
@@ -219,7 +216,7 @@ class _EmergencyToggleState extends State<_EmergencyToggle> {
               decoration: BoxDecoration(
                 color: isEmergency
                     ? AppColors.primary
-                    : Colors.white.withOpacity(0.05),
+                    : Colors.white.withValues(alpha: 0.05),
                 shape: BoxShape.circle,
               ),
               child: Icon(
@@ -253,7 +250,7 @@ class _EmergencyToggleState extends State<_EmergencyToggle> {
             Switch.adaptive(
               value: isEmergency,
               onChanged: (v) => setState(() => isEmergency = v),
-              activeColor: AppColors.primary,
+              activeThumbColor: AppColors.primary,
             ),
           ],
         ),
@@ -278,7 +275,7 @@ class _SearchBar extends StatelessWidget {
           decoration: BoxDecoration(
             color: AppColors.surface,
             borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: Colors.white.withOpacity(0.05)),
+            border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
           ),
           child: Row(
             children: [
@@ -493,7 +490,7 @@ class _ImpactSection extends StatelessWidget {
             decoration: BoxDecoration(
               color: AppColors.surface,
               borderRadius: BorderRadius.circular(24),
-              border: Border.all(color: Colors.white.withOpacity(0.05)),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
             ),
             child: Column(
               children: [
@@ -606,7 +603,10 @@ class _CommunityStories extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(24),
                 gradient: LinearGradient(
-                  colors: [Colors.black.withOpacity(0.8), Colors.transparent],
+                  colors: [
+                    Colors.black.withValues(alpha: 0.8),
+                    Colors.transparent,
+                  ],
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
                 ),

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../constants.dart';
 import 'success_screen.dart';
@@ -43,7 +43,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 20),
@@ -62,39 +61,50 @@ class _RegisterScreenState extends State<RegisterScreen> {
               const SizedBox(height: 8),
               Text(
                 'Become a lifesaver in your community.',
-                style: AppTextStyles.body1.copyWith(color: AppColors.textSecondary),
+                style: AppTextStyles.body1.copyWith(
+                  color: AppColors.textSecondary,
+                ),
               ),
               const SizedBox(height: 32),
-              
+
               // Full Name
               _Label('Full Name'),
               TextField(
                 controller: _nameCtrl,
                 style: const TextStyle(color: Colors.white),
-                decoration: _fieldDecoration('Enter your full name', Icons.person_outline_rounded),
+                decoration: _fieldDecoration(
+                  'Enter your full name',
+                  Icons.person_outline_rounded,
+                ),
               ),
               const SizedBox(height: 20),
-              
+
               // Email
               _Label('Email Address'),
               TextField(
                 controller: _emailCtrl,
                 keyboardType: TextInputType.emailAddress,
                 style: const TextStyle(color: Colors.white),
-                decoration: _fieldDecoration('name@example.com', Icons.mail_outline_rounded),
+                decoration: _fieldDecoration(
+                  'name@example.com',
+                  Icons.mail_outline_rounded,
+                ),
               ),
               const SizedBox(height: 20),
-              
+
               // Phone
               _Label('Phone Number'),
               TextField(
                 controller: _phoneCtrl,
                 keyboardType: TextInputType.phone,
                 style: const TextStyle(color: Colors.white),
-                decoration: _fieldDecoration('+1 (555) 000-0000', Icons.phone_outlined),
+                decoration: _fieldDecoration(
+                  '+1 (555) 000-0000',
+                  Icons.phone_outlined,
+                ),
               ),
               const SizedBox(height: 24),
-              
+
               // Blood Type Selection
               _Label('Select Blood Type'),
               Wrap(
@@ -106,20 +116,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     onTap: () => setState(() => _selectedBloodType = type),
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 200),
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 12,
+                      ),
                       decoration: BoxDecoration(
-                        color: isSelected ? AppColors.primary.withOpacity(0.1) : AppColors.surface,
+                        color: isSelected
+                            ? AppColors.primary.withValues(alpha: 0.1)
+                            : AppColors.surface,
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(
-                          color: isSelected ? AppColors.primary : Colors.white.withOpacity(0.05),
+                          color: isSelected
+                              ? AppColors.primary
+                              : Colors.white.withValues(alpha: 0.05),
                           width: 1.5,
                         ),
                       ),
                       child: Text(
                         type,
                         style: AppTextStyles.subtitle2.copyWith(
-                          color: isSelected ? AppColors.primary : Colors.white70,
-                          fontWeight: isSelected ? FontWeight.w800 : FontWeight.w500,
+                          color: isSelected
+                              ? AppColors.primary
+                              : Colors.white70,
+                          fontWeight: isSelected
+                              ? FontWeight.w800
+                              : FontWeight.w500,
                         ),
                       ),
                     ),
@@ -127,26 +148,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 }).toList(),
               ),
               const SizedBox(height: 32),
-              
+
               // Password
               _Label('Password'),
               TextField(
                 controller: _passCtrl,
                 obscureText: _obscure,
                 style: const TextStyle(color: Colors.white),
-                decoration: _fieldDecoration('••••••••', Icons.lock_outline_rounded).copyWith(
-                  suffixIcon: IconButton(
-                    onPressed: () => setState(() => _obscure = !_obscure),
-                    icon: Icon(
-                      _obscure ? Icons.visibility_off_rounded : Icons.visibility_rounded,
-                      color: Colors.white38,
-                      size: 20,
+                decoration:
+                    _fieldDecoration(
+                      'â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢',
+                      Icons.lock_outline_rounded,
+                    ).copyWith(
+                      suffixIcon: IconButton(
+                        onPressed: () => setState(() => _obscure = !_obscure),
+                        icon: Icon(
+                          _obscure
+                              ? Icons.visibility_off_rounded
+                              : Icons.visibility_rounded,
+                          color: Colors.white38,
+                          size: 20,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
               ),
               const SizedBox(height: 40),
-              
+
               // Action Button
               SizedBox(
                 width: double.infinity,
@@ -157,13 +184,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ? const SizedBox(
                           width: 24,
                           height: 24,
-                          child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 2,
+                          ),
                         )
                       : const Text('Create Account'),
                 ),
               ),
               const SizedBox(height: 24),
-              
+
               // Footer
               Center(
                 child: Row(
@@ -198,7 +228,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       fillColor: AppColors.surface,
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
-        borderSide: BorderSide(color: Colors.white.withOpacity(0.05)),
+        borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.05)),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
@@ -222,3 +252,4 @@ class _Label extends StatelessWidget {
     );
   }
 }
+

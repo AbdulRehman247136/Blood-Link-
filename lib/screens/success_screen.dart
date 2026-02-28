@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import '../constants.dart';
 import 'main_screen.dart';
@@ -9,7 +9,6 @@ class RegistrationSuccessScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 40),
@@ -23,9 +22,12 @@ class RegistrationSuccessScreen extends StatelessWidget {
                   width: 120,
                   height: 120,
                   decoration: BoxDecoration(
-                    color: AppColors.primary.withOpacity(0.1),
+                    color: AppColors.primary.withValues(alpha: 0.1),
                     shape: BoxShape.circle,
-                    border: Border.all(color: AppColors.primary.withOpacity(0.2), width: 2),
+                    border: Border.all(
+                      color: AppColors.primary.withValues(alpha: 0.2),
+                      width: 2,
+                    ),
                   ),
                   child: Center(
                     child: FadeInDown(
@@ -40,7 +42,7 @@ class RegistrationSuccessScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 40),
-              
+
               // Success Message
               FadeInUp(
                 duration: const Duration(milliseconds: 800),
@@ -57,11 +59,13 @@ class RegistrationSuccessScreen extends StatelessWidget {
                 child: Text(
                   'Welcome to the community of lifesavers. You can now start donating and requesting blood.',
                   textAlign: TextAlign.center,
-                  style: AppTextStyles.body2.copyWith(color: AppColors.textSecondary),
+                  style: AppTextStyles.body2.copyWith(
+                    color: AppColors.textSecondary,
+                  ),
                 ),
               ),
               const SizedBox(height: 60),
-              
+
               // Action Button
               FadeIn(
                 duration: const Duration(milliseconds: 800),
@@ -81,7 +85,7 @@ class RegistrationSuccessScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-              
+
               // Sharing Impact
               FadeIn(
                 duration: const Duration(milliseconds: 800),
@@ -90,9 +94,7 @@ class RegistrationSuccessScreen extends StatelessWidget {
                   onPressed: () {},
                   icon: const Icon(Icons.share_rounded, size: 18),
                   label: const Text('Share your impact'),
-                  style: TextButton.styleFrom(
-                    foregroundColor: Colors.white54,
-                  ),
+                  style: TextButton.styleFrom(foregroundColor: Colors.white54),
                 ),
               ),
             ],
@@ -102,3 +104,4 @@ class RegistrationSuccessScreen extends StatelessWidget {
     );
   }
 }
+

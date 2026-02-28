@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'colors.dart';
 
 /// Production-ready shadow and elevation system for Blood Bank App
@@ -312,10 +312,11 @@ class AppShadows {
   }) {
     return [
       BoxShadow(
-        color: color.withOpacity(0.5 * intensity),
+        color: color.withValues(alpha: 0.5 * intensity),
         blurRadius: 20 * intensity,
         spreadRadius: 2 * intensity,
       ),
     ];
   }
 }
+

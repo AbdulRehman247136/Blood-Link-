@@ -3,6 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'index.dart';
+import '../screens/dashboard_screen.dart';
 
 // ============================================================================
 // PATTERN 1: Using the Theme in MaterialApp
@@ -14,7 +15,7 @@ void configureTheme() {
     title: 'Blood Bank',
     theme: AppTheme.lightTheme,
     // darkTheme: AppTheme.darkTheme, // Future enhancement
-    home: const MyHomeScreen(),
+    home: const DashboardScreen(),
   );
 
   // ❌ INCORRECT: Don't create custom themes without reason
@@ -30,7 +31,7 @@ void configureTheme() {
 // ============================================================================
 
 class ColorUsageExample extends StatelessWidget {
-  const ColorUsageExample({Key? key}) : super(key: key);
+  const ColorUsageExample({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +70,7 @@ class ColorUsageExample extends StatelessWidget {
 // ============================================================================
 
 class TextStyleExample extends StatelessWidget {
-  const TextStyleExample({Key? key}) : super(key: key);
+  const TextStyleExample({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +111,7 @@ class TextStyleExample extends StatelessWidget {
 // ============================================================================
 
 class SpacingExample extends StatelessWidget {
-  const SpacingExample({Key? key}) : super(key: key);
+  const SpacingExample({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -169,7 +170,7 @@ class SpacingExample extends StatelessWidget {
 // ============================================================================
 
 class ShadowExample extends StatelessWidget {
-  const ShadowExample({Key? key}) : super(key: key);
+  const ShadowExample({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -234,7 +235,7 @@ class ShadowExample extends StatelessWidget {
 // ============================================================================
 
 class AnimationExample extends StatefulWidget {
-  const AnimationExample({Key? key}) : super(key: key);
+  const AnimationExample({super.key});
 
   @override
   State<AnimationExample> createState() => _AnimationExampleState();
@@ -338,13 +339,13 @@ class _AnimationExampleState extends State<AnimationExample>
 // ============================================================================
 
 class ResponsiveExample extends StatelessWidget {
-  const ResponsiveExample({Key? key}) : super(key: key);
+  const ResponsiveExample({super.key});
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final isTablet = screenWidth >= AppSpacing.tabletMinWidth;
-    final isDesktop = screenWidth >= AppSpacing.desktopMinWidth;
+    // final isDesktop = screenWidth >= AppSpacing.desktopMinWidth;
 
     return SingleChildScrollView(
       child: Padding(
@@ -379,7 +380,7 @@ class ResponsiveExample extends StatelessWidget {
 // ============================================================================
 
 class InteractiveStateExample extends StatefulWidget {
-  const InteractiveStateExample({Key? key}) : super(key: key);
+  const InteractiveStateExample({super.key});
 
   @override
   State<InteractiveStateExample> createState() =>

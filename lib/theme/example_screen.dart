@@ -1,4 +1,4 @@
-// Example: Using Design System in a Real Screen
+﻿// Example: Using Design System in a Real Screen
 // This file demonstrates best practices for implementing screens using the design system
 
 import 'package:flutter/material.dart';
@@ -14,7 +14,7 @@ import '../theme/index.dart'; // Import all design system components
 /// - Accessibility compliance
 
 class DesignSystemExampleScreen extends StatefulWidget {
-  const DesignSystemExampleScreen({Key? key}) : super(key: key);
+  const DesignSystemExampleScreen({super.key});
 
   @override
   State<DesignSystemExampleScreen> createState() =>
@@ -250,7 +250,7 @@ class _DesignSystemExampleScreenState extends State<DesignSystemExampleScreen>
           color: AppColors.surface,
           borderRadius: BorderRadius.circular(AppSpacing.borderRadiusLarge),
           boxShadow: AppShadows.cardShadow,
-          border: Border.all(color: color.withOpacity(0.3)),
+          border: Border.all(color: color.withValues(alpha: 0.3)),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -485,3 +485,4 @@ class _DesignSystemExampleScreenState extends State<DesignSystemExampleScreen>
     );
   }
 }
+

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/theme_provider.dart';
 import '../theme/colors.dart';
@@ -33,7 +33,7 @@ class ThemeToggleButton extends ConsumerWidget {
           border: Border.all(
             color: isDarkMode
                 ? AppColors.darkOutline
-                : AppColors.outline.withOpacity(0.3),
+                : AppColors.outline.withValues(alpha: 0.3),
             width: 1,
           ),
         ),
@@ -268,3 +268,4 @@ class CompactThemeToggle extends ConsumerWidget {
     );
   }
 }
+

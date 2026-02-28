@@ -102,7 +102,6 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   Widget build(BuildContext context) {
     final slide = _slides[_currentPage];
     return Scaffold(
-      backgroundColor: AppColors.background,
       body: Container(
         decoration: const BoxDecoration(gradient: AppColors.darkBgGradient),
         child: SafeArea(

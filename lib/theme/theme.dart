@@ -3,7 +3,6 @@ import 'colors.dart';
 import 'typography.dart';
 import 'spacing.dart';
 import 'shadows.dart';
-import 'animations.dart';
 
 /// Production-ready Material Design 3 theme for Blood Bank App
 /// Integrates color, typography, spacing, and animation systems
@@ -33,7 +32,7 @@ class AppTheme {
         onTertiaryContainer: AppColors.tertiary800,
         surface: AppColors.surface,
         onSurface: AppColors.textPrimary,
-        surfaceVariant: AppColors.surfaceVariant,
+        surfaceContainerHighest: AppColors.surfaceVariant,
         onSurfaceVariant: AppColors.textSecondary,
         outline: AppColors.outline,
         outlineVariant: AppColors.outlineVariant,
@@ -248,11 +247,11 @@ class AppTheme {
         elevation: 8,
         shadowColor: AppColors.scrimMedium,
         surfaceTintColor: AppColors.primary,
-        labelTextStyle: MaterialStatePropertyAll(
+        labelTextStyle: WidgetStatePropertyAll(
           AppTypography.labelSmall.copyWith(fontSize: 12),
         ),
-        iconTheme: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.selected)) {
+        iconTheme: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
             return IconThemeData(
               color: AppColors.primary,
               size: AppSpacing.iconMedium,
@@ -297,15 +296,15 @@ class AppTheme {
 
       // Switch Theme
       switchTheme: SwitchThemeData(
-        thumbColor: MaterialStatePropertyAll(AppColors.primary),
-        trackColor: MaterialStatePropertyAll(AppColors.primary200),
+        thumbColor: WidgetStatePropertyAll(AppColors.primary),
+        trackColor: WidgetStatePropertyAll(AppColors.primary200),
         splashRadius: 20,
       ),
 
       // Checkbox Theme
       checkboxTheme: CheckboxThemeData(
-        fillColor: MaterialStatePropertyAll(AppColors.primary),
-        checkColor: MaterialStatePropertyAll(AppColors.textInverse),
+        fillColor: WidgetStatePropertyAll(AppColors.primary),
+        checkColor: WidgetStatePropertyAll(AppColors.textInverse),
         side: const BorderSide(color: AppColors.primary),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppSpacing.borderRadiusSmall),
@@ -314,9 +313,9 @@ class AppTheme {
 
       // Radio Theme
       radioTheme: RadioThemeData(
-        fillColor: MaterialStatePropertyAll(AppColors.primary),
-        overlayColor: MaterialStatePropertyAll(
-          AppColors.primary.withOpacity(0.1),
+        fillColor: WidgetStatePropertyAll(AppColors.primary),
+        overlayColor: WidgetStatePropertyAll(
+          AppColors.primary.withValues(alpha: 0.1),
         ),
       ),
 
@@ -333,13 +332,13 @@ class AppTheme {
         activeTrackColor: AppColors.primary,
         inactiveTrackColor: AppColors.primary100,
         thumbColor: AppColors.primary,
-        overlayColor: AppColors.primary.withOpacity(0.12),
+        overlayColor: AppColors.primary.withValues(alpha: 0.12),
         valueIndicatorColor: AppColors.primary,
         valueIndicatorTextStyle: AppTypography.bodySmall.copyWith(
           color: AppColors.textInverse,
         ),
         trackHeight: 4.0,
-        showValueIndicator: ShowValueIndicator.always,
+        showValueIndicator: ShowValueIndicator.onDrag,
         disabledActiveTrackColor: AppColors.textDisabled,
         disabledInactiveTrackColor: AppColors.textDisabled,
         disabledThumbColor: AppColors.textDisabled,
@@ -713,7 +712,7 @@ class AppTheme {
       radioTheme: RadioThemeData(
         fillColor: WidgetStatePropertyAll(AppColors.darkPrimary),
         overlayColor: WidgetStatePropertyAll(
-          AppColors.darkPrimary.withOpacity(0.1),
+          AppColors.darkPrimary.withValues(alpha: 0.1),
         ),
       ),
 
@@ -730,13 +729,13 @@ class AppTheme {
         activeTrackColor: AppColors.darkPrimary,
         inactiveTrackColor: AppColors.darkPrimaryContainer,
         thumbColor: AppColors.darkPrimary,
-        overlayColor: AppColors.darkPrimary.withOpacity(0.12),
+        overlayColor: AppColors.darkPrimary.withValues(alpha: 0.12),
         valueIndicatorColor: AppColors.darkPrimary,
         valueIndicatorTextStyle: AppTypography.bodySmall.copyWith(
           color: AppColors.textInverse,
         ),
         trackHeight: 4.0,
-        showValueIndicator: ShowValueIndicator.always,
+        showValueIndicator: ShowValueIndicator.onDrag,
         disabledActiveTrackColor: AppColors.darkOutline,
         disabledInactiveTrackColor: AppColors.darkOutline,
         disabledThumbColor: AppColors.darkOutline,

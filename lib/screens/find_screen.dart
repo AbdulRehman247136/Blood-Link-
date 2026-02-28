@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import '../constants.dart';
 import '../widgets/blood_filters.dart';
@@ -84,7 +84,6 @@ class _FindScreenState extends State<FindScreen> {
     }).toList();
 
     return Scaffold(
-      backgroundColor: AppColors.background,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -101,7 +100,9 @@ class _FindScreenState extends State<FindScreen> {
                     decoration: BoxDecoration(
                       color: AppColors.surface,
                       borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Colors.white.withOpacity(0.05)),
+                      border: Border.all(
+                        color: Colors.white.withValues(alpha: 0.05),
+                      ),
                     ),
                     child: const Icon(
                       Icons.map_outlined,
@@ -123,7 +124,9 @@ class _FindScreenState extends State<FindScreen> {
                 decoration: BoxDecoration(
                   color: AppColors.surface,
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: Colors.white.withOpacity(0.05)),
+                  border: Border.all(
+                    color: Colors.white.withValues(alpha: 0.05),
+                  ),
                 ),
                 child: TextField(
                   controller: _searchController,
@@ -257,10 +260,14 @@ class _FindScreenState extends State<FindScreen> {
                                   vertical: 12,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: AppColors.primary.withOpacity(0.2),
+                                  color: AppColors.primary.withValues(
+                                    alpha: 0.2,
+                                  ),
                                   borderRadius: BorderRadius.circular(12),
                                   border: Border.all(
-                                    color: AppColors.primary.withOpacity(0.5),
+                                    color: AppColors.primary.withValues(
+                                      alpha: 0.5,
+                                    ),
                                   ),
                                 ),
                                 child: Text(
@@ -315,10 +322,11 @@ class _DonorCard extends StatelessWidget {
     Color statusColor;
     if (status == 'Critical') {
       statusColor = AppColors.primary;
-    } else if (status == 'Low')
+    } else if (status == 'Low') {
       statusColor = Colors.orange;
-    else
+    } else {
       statusColor = Colors.green;
+    }
 
     return GestureDetector(
       onTap: () => Navigator.push(
@@ -333,7 +341,7 @@ class _DonorCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.surface,
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: Colors.white.withOpacity(0.05)),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
         ),
         child: Row(
           children: [

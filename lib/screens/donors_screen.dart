@@ -1,16 +1,18 @@
-import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:flutter/material.dart';
+
 import '../constants.dart';
 import 'contact_donor_screen.dart';
 
 class DonorsScreen extends StatefulWidget {
   const DonorsScreen({super.key});
+
   @override
   State<DonorsScreen> createState() => _DonorsScreenState();
 }
 
 class _DonorsScreenState extends State<DonorsScreen> {
-  final donors = [
+  final List<Map<String, dynamic>> _donors = const [
     {
       'name': 'Ayesha Khan',
       'type': 'O+',
@@ -48,20 +50,18 @@ class _DonorsScreenState extends State<DonorsScreen> {
     },
   ];
 
-  String query = '';
+  String _query = '';
 
   @override
   Widget build(BuildContext context) {
-    final filtered = donors
-        .where(
-          (d) =>
-              (d['name'] as String).toLowerCase().contains(query.toLowerCase()),
-        )
-        .toList();
+    final filtered = _donors.where((donor) {
+      return (donor['name'] as String).toLowerCase().contains(
+        _query.toLowerCase(),
+      );
+    }).toList();
 
     return Column(
       children: [
-        // Header with search
         Container(
           width: double.infinity,
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 20),
@@ -91,7 +91,7 @@ class _DonorsScreenState extends State<DonorsScreen> {
                   boxShadow: AppShadows.card,
                 ),
                 child: TextField(
-                  onChanged: (v) => setState(() => query = v),
+                  onChanged: (value) => setState(() => _query = value),
                   decoration: InputDecoration(
                     hintText: 'Search donors by name…',
                     hintStyle: AppTextStyles.body1.copyWith(
@@ -109,34 +109,29 @@ class _DonorsScreenState extends State<DonorsScreen> {
             ],
           ),
         ),
-
-        // Stats row
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
           child: Row(
-            children: [
+            children: const [
               _SmallStat(value: '1,234', label: 'Donations'),
-              const SizedBox(width: 10),
+              SizedBox(width: 10),
               _SmallStat(value: '856', label: 'Donors'),
-              const SizedBox(width: 10),
+              SizedBox(width: 10),
               _SmallStat(value: '3,702', label: 'Lives Saved'),
             ],
           ),
         ),
-
         const SizedBox(height: 12),
-
         Expanded(
           child: ListView.builder(
             physics: const BouncingScrollPhysics(),
             padding: const EdgeInsets.symmetric(horizontal: 16),
             itemCount: filtered.length,
-            itemBuilder: (context, idx) {
-              final d = filtered[idx];
+            itemBuilder: (context, index) {
               return FadeInUp(
-                delay: Duration(milliseconds: 80 * idx),
+                delay: Duration(milliseconds: 80 * index),
                 duration: const Duration(milliseconds: 400),
-                child: _DonorCard(donor: d),
+                child: _DonorCard(donor: filtered[index]),
               );
             },
           ),
@@ -147,7 +142,9 @@ class _DonorsScreenState extends State<DonorsScreen> {
 }
 
 class _SmallStat extends StatelessWidget {
-  final String value, label;
+  final String value;
+  final String label;
+
   const _SmallStat({required this.value, required this.label});
 
   @override
@@ -156,7 +153,7 @@ class _SmallStat extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(AppBorderRadius.md),
           boxShadow: AppShadows.card,
         ),
@@ -181,6 +178,7 @@ class _SmallStat extends StatelessWidget {
 
 class _DonorCard extends StatelessWidget {
   final Map<String, dynamic> donor;
+
   const _DonorCard({required this.donor});
 
   @override
@@ -188,7 +186,7 @@ class _DonorCard extends StatelessWidget {
     final available = donor['available'] as bool;
     final initials = (donor['name'] as String)
         .split(' ')
-        .map((s) => s[0])
+        .map((word) => word[0])
         .take(2)
         .join()
         .toUpperCase();
@@ -201,7 +199,7 @@ class _DonorCard extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.only(bottom: 12),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(AppBorderRadius.lg),
           boxShadow: AppShadows.card,
         ),
@@ -209,21 +207,20 @@ class _DonorCard extends StatelessWidget {
           padding: const EdgeInsets.all(14),
           child: Row(
             children: [
-              // Circular avatar with availability dot
               Stack(
                 children: [
                   Container(
                     width: 52,
                     height: 52,
-                    decoration: BoxDecoration(
-                      gradient: const LinearGradient(
+                    alignment: Alignment.center,
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
                         colors: [Color(0xFFFFCDD2), Color(0xFFEF9A9A)],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
                       shape: BoxShape.circle,
                     ),
-                    alignment: Alignment.center,
                     child: Text(
                       initials,
                       style: AppTextStyles.subtitle1.copyWith(
@@ -232,95 +229,104 @@ class _DonorCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                Positioned(
-                  right: 1,
-                  bottom: 1,
-                  child: Container(
-                    width: 14,
-                    height: 14,
-                    decoration: BoxDecoration(
-                      color: available
-                          ? AppColors.success
-                          : AppColors.textMuted,
-                      shape: BoxShape.circle,
-                      border: Border.all(color: Colors.white, width: 2),
+                  Positioned(
+                    right: 1,
+                    bottom: 1,
+                    child: Container(
+                      width: 14,
+                      height: 14,
+                      decoration: BoxDecoration(
+                        color: available
+                            ? AppColors.success
+                            : AppColors.textMuted,
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.white, width: 2),
+                      ),
                     ),
                   ),
+                ],
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      donor['name'] as String,
+                      style: AppTextStyles.subtitle1,
+                    ),
+                    const SizedBox(height: 4),
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.location_on_rounded,
+                          size: 13,
+                          color: AppColors.textSecondary,
+                        ),
+                        Text(
+                          donor['distance'] as String,
+                          style: AppTextStyles.caption,
+                        ),
+                        const SizedBox(width: 6),
+                        Text('·', style: AppTextStyles.caption),
+                        const SizedBox(width: 6),
+                        Text(
+                          'Last: ${donor['last']}',
+                          style: AppTextStyles.caption,
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              ),
+              Column(
                 children: [
-                  Text(donor['name'] as String, style: AppTextStyles.subtitle1),
-                  const SizedBox(height: 4),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      gradient: AppColors.primaryGradient,
+                      borderRadius: BorderRadius.circular(
+                        AppBorderRadius.circle,
+                      ),
+                    ),
+                    child: Text(
+                      donor['type'] as String,
+                      style: AppTextStyles.badge,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
                   Row(
                     children: [
-                      const Icon(
-                        Icons.location_on_rounded,
-                        size: 13,
-                        color: AppColors.textSecondary,
-                      ),
-                      Text(
-                        donor['distance'] as String,
-                        style: AppTextStyles.caption,
+                      _ActionButton(
+                        icon: Icons.call_rounded,
+                        color: AppColors.success,
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => ContactDonorScreen(donor: donor),
+                          ),
+                        ),
                       ),
                       const SizedBox(width: 6),
-                      Text('·', style: AppTextStyles.caption),
-                      const SizedBox(width: 6),
-                      Text(
-                        'Last: ${donor['last']}',
-                        style: AppTextStyles.caption,
+                      _ActionButton(
+                        icon: Icons.send_rounded,
+                        color: AppColors.primary,
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => ContactDonorScreen(donor: donor),
+                          ),
+                        ),
                       ),
                     ],
                   ),
                 ],
               ),
-            ),
-            Column(
-              children: [
-                // Blood group badge
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 4,
-                  ),
-                  decoration: BoxDecoration(
-                    gradient: AppColors.primaryGradient,
-                    borderRadius: BorderRadius.circular(AppBorderRadius.circle),
-                  ),
-                  child: Text(
-                    donor['type'] as String,
-                    style: AppTextStyles.badge,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  children: [
-                    _ActionButton(
-                      icon: Icons.call_rounded,
-                      color: AppColors.success,
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => ContactDonorScreen(donor: donor)),
-                      ),
-                    ),
-                    const SizedBox(width: 6),
-                    _ActionButton(
-                      icon: Icons.send_rounded,
-                      color: AppColors.primary,
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => ContactDonorScreen(donor: donor)),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -331,7 +337,12 @@ class _ActionButton extends StatelessWidget {
   final IconData icon;
   final Color color;
   final VoidCallback onTap;
-  const _ActionButton({required this.icon, required this.color, required this.onTap});
+
+  const _ActionButton({
+    required this.icon,
+    required this.color,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {

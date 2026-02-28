@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../constants.dart';
@@ -88,7 +88,6 @@ class _ContactDonorScreenState extends State<ContactDonorScreen> {
     final available = widget.donor['available'] as bool;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -192,7 +191,7 @@ class _ContactDonorScreenState extends State<ContactDonorScreen> {
                                   vertical: 4,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.2),
+                                  color: Colors.white.withValues(alpha: 0.2),
                                   borderRadius: BorderRadius.circular(
                                     AppBorderRadius.circle,
                                   ),
@@ -210,7 +209,7 @@ class _ContactDonorScreenState extends State<ContactDonorScreen> {
                       ],
                     ),
                     const SizedBox(height: 16),
-                    Divider(color: Colors.white.withOpacity(0.1)),
+                    Divider(color: Colors.white.withValues(alpha: 0.1)),
                     const SizedBox(height: 16),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -326,7 +325,7 @@ class _ContactDonorScreenState extends State<ContactDonorScreen> {
                 decoration: BoxDecoration(
                   color: AppColors.surface,
                   borderRadius: BorderRadius.circular(AppBorderRadius.lg),
-                  border: Border.all(color: Colors.white.withOpacity(0.05)),
+                  border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -372,7 +371,7 @@ class _ContactDonorScreenState extends State<ContactDonorScreen> {
             decoration: BoxDecoration(
               color: AppColors.surface,
               borderRadius: BorderRadius.circular(AppBorderRadius.lg),
-              border: Border.all(color: Colors.white.withOpacity(0.05)),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -428,11 +427,11 @@ class _ContactDonorScreenState extends State<ContactDonorScreen> {
               fillColor: AppColors.surface,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(AppBorderRadius.lg),
-                borderSide: BorderSide(color: Colors.white.withOpacity(0.05)),
+                borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.05)),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(AppBorderRadius.lg),
-                borderSide: BorderSide(color: Colors.white.withOpacity(0.05)),
+                borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.05)),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(AppBorderRadius.lg),
@@ -458,7 +457,7 @@ class _ContactDonorScreenState extends State<ContactDonorScreen> {
             decoration: BoxDecoration(
               color: AppColors.surface,
               borderRadius: BorderRadius.circular(AppBorderRadius.lg),
-              border: Border.all(color: Colors.white.withOpacity(0.05)),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -602,7 +601,7 @@ class _ContactMethodButton extends StatelessWidget {
             border: Border.all(
               color: isSelected
                   ? AppColors.primary
-                  : Colors.white.withOpacity(0.05),
+                  : Colors.white.withValues(alpha: 0.05),
             ),
           ),
           child: Column(
@@ -676,7 +675,7 @@ class _AdditionalOption extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.02),
+          color: Colors.white.withValues(alpha: 0.02),
           borderRadius: BorderRadius.circular(AppBorderRadius.md),
         ),
         child: Row(
@@ -695,3 +694,4 @@ class _AdditionalOption extends StatelessWidget {
     );
   }
 }
+

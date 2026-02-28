@@ -1,6 +1,7 @@
 /// Production-ready spacing and sizing system for Blood Bank App
 /// Follows Material Design 3 spacing scale
 /// Ensures consistency across all UI components
+library;
 
 class AppSpacing {
   // Base spacing unit (8dp)

@@ -1,4 +1,4 @@
-import 'dart:ui';
+﻿import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../constants.dart';
@@ -60,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen>
         value: SystemUiOverlayStyle.light,
         child: Stack(
           children: [
-            // ── Background Wave Animation ─────────────────────────────
+            // â”€â”€ Background Wave Animation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             Positioned(
               top: 0,
               left: 0,
@@ -72,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen>
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      AppColors.primary.withOpacity(0.3),
+                      AppColors.primary.withValues(alpha: 0.3),
                       AppColors.backgroundDarkAlt,
                     ],
                   ),
@@ -102,7 +102,7 @@ class _LoginScreenState extends State<LoginScreen>
               },
             ),
 
-            // ── Main Content ──────────────────────────────────────────
+            // â”€â”€ Main Content â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             SafeArea(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(horizontal: 28),
@@ -142,7 +142,7 @@ class _LoginScreenState extends State<LoginScreen>
                           Text(
                             'Saving lives, connecting heroes.',
                             style: AppTextStyles.subtitle2.copyWith(
-                              color: AppColors.primaryLight.withOpacity(0.6),
+                              color: AppColors.primaryLight.withValues(alpha: 0.6),
                             ),
                           ),
                         ],
@@ -159,7 +159,7 @@ class _LoginScreenState extends State<LoginScreen>
                         child: Container(
                           padding: const EdgeInsets.all(28),
                           decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.05),
+                            color: Colors.white.withValues(alpha: 0.05),
                             borderRadius: BorderRadius.circular(24),
                             border: Border.all(color: Colors.white10),
                           ),
@@ -268,7 +268,7 @@ class _LoginScreenState extends State<LoginScreen>
                     Row(
                       children: [
                         Expanded(
-                          child: Divider(color: Colors.white.withOpacity(0.1)),
+                          child: Divider(color: Colors.white.withValues(alpha: 0.1)),
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -280,7 +280,7 @@ class _LoginScreenState extends State<LoginScreen>
                           ),
                         ),
                         Expanded(
-                          child: Divider(color: Colors.white.withOpacity(0.1)),
+                          child: Divider(color: Colors.white.withValues(alpha: 0.1)),
                         ),
                       ],
                     ),
@@ -437,3 +437,4 @@ class WavePainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }
+

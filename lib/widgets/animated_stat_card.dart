@@ -33,15 +33,18 @@ class AnimatedStatCard extends StatelessWidget {
           TweenAnimationBuilder<int>(
             tween: IntTween(begin: 0, end: targetValue),
             duration: const Duration(milliseconds: 1400),
-            builder: (_, value, __) => Text(
+            builder: (_, value, child) => Text(
               value >= 1000
                   ? '${(value / 1000).toStringAsFixed(1)}K'
                   : '$value',
-              style: AppTextStyles.heroTitle.copyWith(fontSize: 20),
+              style: AppTextStyles.heading3.copyWith(fontSize: 20),
             ),
           ),
           const SizedBox(height: 2),
-          Text(label, style: AppTextStyles.caption.copyWith(color: Colors.white70)),
+          Text(
+            label,
+            style: AppTextStyles.caption.copyWith(color: Colors.white70),
+          ),
         ],
       ),
     );

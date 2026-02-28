@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../constants.dart';
+import '../core/enums.dart';
 
 class BloodFilters extends StatefulWidget {
   final Function(String?) onSelectionChanged;
@@ -47,12 +48,12 @@ class _BloodFiltersState extends State<BloodFilters> {
                   border: Border.all(
                     color: isSelected
                         ? AppColors.primary
-                        : Colors.white.withOpacity(0.05),
+                        : Colors.white.withValues(alpha: 0.05),
                   ),
                   boxShadow: isSelected
                       ? [
                           BoxShadow(
-                            color: AppColors.primary.withOpacity(0.3),
+                            color: AppColors.primary.withValues(alpha: 0.3),
                             blurRadius: 10,
                             offset: const Offset(0, 4),
                           ),
@@ -76,3 +77,83 @@ class _BloodFiltersState extends State<BloodFilters> {
     );
   }
 }
+
+class BloodTypeFilter extends StatefulWidget {
+  final BloodType? selectedType;
+  final ValueChanged<BloodType> onChanged;
+
+  const BloodTypeFilter({
+    super.key,
+    this.selectedType,
+    required this.onChanged,
+  });
+
+  @override
+  State<BloodTypeFilter> createState() => _BloodTypeFilterState();
+}
+
+class _BloodTypeFilterState extends State<BloodTypeFilter> {
+  late BloodType? _selectedType;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedType = widget.selectedType;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: BloodType.values.map((type) {
+          final isSelected = _selectedType == type;
+          return Padding(
+            padding: const EdgeInsets.only(right: 12),
+            child: GestureDetector(
+              onTap: () {
+                setState(() => _selectedType = type);
+                widget.onChanged(type);
+              },
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 10,
+                ),
+                decoration: BoxDecoration(
+                  color: isSelected ? AppColors.primary : AppColors.surface,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: isSelected
+                        ? AppColors.primary
+                        : Colors.white.withValues(alpha: 0.05),
+                  ),
+                  boxShadow: isSelected
+                      ? [
+                          BoxShadow(
+                            color: AppColors.primary.withValues(alpha: 0.3),
+                            blurRadius: 10,
+                            offset: const Offset(0, 4),
+                          ),
+                        ]
+                      : [],
+                ),
+                child: Text(
+                  type.displayName,
+                  style: AppTextStyles.subtitle2.copyWith(
+                    color: isSelected ? Colors.white : Colors.white70,
+                    fontWeight: isSelected
+                        ? FontWeight.bold
+                        : FontWeight.normal,
+                  ),
+                ),
+              ),
+            ),
+          );
+        }).toList(),
+      ),
+    );
+  }
+}
+

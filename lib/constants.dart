@@ -148,7 +148,7 @@ class AppTextStyles {
 class AppShadows {
   static List<BoxShadow> get primaryGlow => [
     BoxShadow(
-      color: AppColors.primary.withOpacity(0.3),
+      color: AppColors.primary.withValues(alpha: 0.3),
       blurRadius: 20,
       offset: const Offset(0, 8),
     ),
@@ -156,7 +156,7 @@ class AppShadows {
 
   static List<BoxShadow> get glassShadow => [
     BoxShadow(
-      color: Colors.black.withOpacity(0.3),
+      color: Colors.black.withValues(alpha: 0.3),
       blurRadius: 32,
       offset: const Offset(0, 8),
     ),
@@ -164,7 +164,7 @@ class AppShadows {
 
   static List<BoxShadow> get button => [
     BoxShadow(
-      color: AppColors.primary.withOpacity(0.4),
+      color: AppColors.primary.withValues(alpha: 0.4),
       blurRadius: 16,
       offset: const Offset(0, 4),
     ),
@@ -172,7 +172,7 @@ class AppShadows {
 
   static List<BoxShadow> get card => [
     BoxShadow(
-      color: Colors.black.withOpacity(0.2),
+      color: Colors.black.withValues(alpha: 0.2),
       blurRadius: 8,
       offset: const Offset(0, 2),
     ),
@@ -180,7 +180,7 @@ class AppShadows {
 
   static List<BoxShadow> get cardHeavy => [
     BoxShadow(
-      color: Colors.black.withOpacity(0.3),
+      color: Colors.black.withValues(alpha: 0.3),
       blurRadius: 16,
       offset: const Offset(0, 4),
     ),
@@ -188,7 +188,7 @@ class AppShadows {
 
   static List<BoxShadow> get fab => [
     BoxShadow(
-      color: AppColors.primary.withOpacity(0.5),
+      color: AppColors.primary.withValues(alpha: 0.5),
       blurRadius: 12,
       offset: const Offset(0, 4),
     ),

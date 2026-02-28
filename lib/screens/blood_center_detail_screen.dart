@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../constants.dart';
@@ -40,7 +40,6 @@ class _BloodCenterDetailScreenState extends State<BloodCenterDetailScreen> {
     }
 
     return Scaffold(
-      backgroundColor: AppColors.background,
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
@@ -113,7 +112,7 @@ class _BloodCenterDetailScreenState extends State<BloodCenterDetailScreen> {
                                     vertical: 8,
                                   ),
                                   decoration: BoxDecoration(
-                                    color: Colors.white.withOpacity(0.2),
+                                    color: Colors.white.withValues(alpha: 0.2),
                                     borderRadius: BorderRadius.circular(
                                       AppBorderRadius.circle,
                                     ),
@@ -203,7 +202,7 @@ class _BloodCenterDetailScreenState extends State<BloodCenterDetailScreen> {
                                 AppBorderRadius.lg,
                               ),
                               border: Border.all(
-                                color: Colors.white.withOpacity(0.05),
+                                color: Colors.white.withValues(alpha: 0.05),
                               ),
                             ),
                             child: Column(
@@ -213,19 +212,19 @@ class _BloodCenterDetailScreenState extends State<BloodCenterDetailScreen> {
                                   value: type,
                                   icon: Icons.favorite_rounded,
                                 ),
-                                Divider(color: Colors.white.withOpacity(0.1)),
+                                Divider(color: Colors.white.withValues(alpha: 0.1)),
                                 _RequirementRow(
                                   label: 'Urgency Level',
                                   value: status,
                                   icon: Icons.warning_rounded,
                                 ),
-                                Divider(color: Colors.white.withOpacity(0.1)),
+                                Divider(color: Colors.white.withValues(alpha: 0.1)),
                                 _RequirementRow(
                                   label: 'Units Required',
                                   value: '3-5 units',
                                   icon: Icons.inventory_2_rounded,
                                 ),
-                                Divider(color: Colors.white.withOpacity(0.1)),
+                                Divider(color: Colors.white.withValues(alpha: 0.1)),
                                 _RequirementRow(
                                   label: 'Needed By',
                                   value: 'Today',
@@ -415,14 +414,14 @@ class _InfoCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(AppBorderRadius.lg),
-        border: Border.all(color: Colors.white.withOpacity(0.05)),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
       ),
       child: Row(
         children: [
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.2),
+              color: color.withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(AppBorderRadius.md),
             ),
             child: Icon(icon, color: color, size: 24),
@@ -499,7 +498,7 @@ class _FacilityBadge extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.surface,
           borderRadius: BorderRadius.circular(AppBorderRadius.lg),
-          border: Border.all(color: Colors.white.withOpacity(0.05)),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -544,14 +543,14 @@ class _ContactButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.surface,
           borderRadius: BorderRadius.circular(AppBorderRadius.lg),
-          border: Border.all(color: color.withOpacity(0.3)),
+          border: Border.all(color: color.withValues(alpha: 0.3)),
         ),
         child: Row(
           children: [
             Container(
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: color.withOpacity(0.2),
+                color: color.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(AppBorderRadius.md),
               ),
               child: Icon(icon, color: color, size: 20),
@@ -583,3 +582,4 @@ class _ContactButton extends StatelessWidget {
     );
   }
 }
+
