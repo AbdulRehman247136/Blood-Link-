@@ -133,7 +133,7 @@ class _RedFluidBannerState extends State<_RedFluidBanner>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1850),
+      duration: const Duration(milliseconds: 4200),
     )..repeat();
   }
 
@@ -225,15 +225,6 @@ class _RedFluidBannerState extends State<_RedFluidBanner>
                   ],
                 ),
               ),
-              Positioned(
-                left: 16,
-                right: 16,
-                bottom: 16,
-                child: Text(
-                  'Emergency blood stream visualization',
-                  style: AppTextStyles.body2.copyWith(color: Colors.white70),
-                ),
-              ),
             ],
           ),
         ),
@@ -265,30 +256,30 @@ class _RedFluidPainter extends CustomPainter {
       canvas,
       size,
       paint: basePaint,
-      level: size.height * 0.70,
-      amplitude: 12,
-      speed: 1.3,
-      phase: progress * math.pi * 2,
+      level: size.height * 0.72,
+      amplitude: 16,
+      speed: 0.65,
+      phase: progress * math.pi * 1.2,
     );
 
     _drawWave(
       canvas,
       size,
       paint: midPaint,
-      level: size.height * 0.61,
-      amplitude: 13,
-      speed: 1.8,
-      phase: progress * math.pi * 2.5,
+      level: size.height * 0.65,
+      amplitude: 18,
+      speed: 0.9,
+      phase: progress * math.pi * 1.5,
     );
 
     _drawWave(
       canvas,
       size,
       paint: topPaint,
-      level: size.height * 0.53,
-      amplitude: 15,
-      speed: 2.2,
-      phase: progress * math.pi * 3,
+      level: size.height * 0.59,
+      amplitude: 20,
+      speed: 1.1,
+      phase: progress * math.pi * 1.8,
     );
   }
 

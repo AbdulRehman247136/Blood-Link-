@@ -23,157 +23,174 @@ class _DonateScreenState extends State<DonateScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
-      padding: const EdgeInsets.all(0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Header
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
-            decoration: const BoxDecoration(
-              gradient: AppColors.primaryGradient,
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(AppBorderRadius.xl),
-                bottomRight: Radius.circular(AppBorderRadius.xl),
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        padding: const EdgeInsets.all(0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Header
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+              decoration: const BoxDecoration(
+                gradient: AppColors.primaryGradient,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(AppBorderRadius.xl),
+                  bottomRight: Radius.circular(AppBorderRadius.xl),
+                ),
               ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Schedule Donation',
-                  style: AppTextStyles.heading2.copyWith(color: Colors.white),
-                ),
-                Text(
-                  'Book your appointment today',
-                  style: AppTextStyles.body2.copyWith(color: Colors.white70),
-                ),
-              ],
-            ),
-          ),
-
-          const SizedBox(height: 20),
-
-          if (_donated)
-            _DonationSuccess()
-          else
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Blood Group Card
-                  FadeInUp(
-                    duration: const Duration(milliseconds: 400),
-                    child: _BloodGroupCard(),
+                  Text(
+                    'Schedule Donation',
+                    style: AppTextStyles.heading2.copyWith(color: Colors.white),
                   ),
-
-                  const SizedBox(height: 20),
-
-                  // Date Selection
-                  FadeInUp(
-                    delay: const Duration(milliseconds: 100),
-                    duration: const Duration(milliseconds: 400),
-                    child: Text('Select Date', style: AppTextStyles.subtitle1),
-                  ),
-                  const SizedBox(height: 10),
-                  FadeInUp(
-                    delay: const Duration(milliseconds: 150),
-                    duration: const Duration(milliseconds: 400),
-                    child: _PickerTile(
-                      icon: Icons.calendar_today_rounded,
-                      label: selectedDate == null
-                          ? 'Choose a date'
-                          : '${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}',
-                      onTap: () async {
-                        final date = await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime.now(),
-                          lastDate: DateTime.now().add(const Duration(days: 90)),
-                          builder: (context, child) {
-                            return Theme(
-                              data: Theme.of(context).copyWith(
-                                colorScheme: const ColorScheme.light(
-                                  primary: AppColors.primary,
-                                ),
-                              ),
-                              child: child!,
-                            );
-                          },
-                        );
-                        if (date != null) setState(() => selectedDate = date);
-                      },
-                    ),
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  // Hospital Selection
-                  FadeInUp(
-                    delay: const Duration(milliseconds: 200),
-                    duration: const Duration(milliseconds: 400),
-                    child: Text('Select Hospital', style: AppTextStyles.subtitle1),
-                  ),
-                  const SizedBox(height: 10),
-                  FadeInUp(
-                    delay: const Duration(milliseconds: 250),
-                    duration: const Duration(milliseconds: 400),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(AppBorderRadius.md),
-                        border: Border.all(color: AppColors.borderColor),
-                        boxShadow: AppShadows.card,
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton<String>(
-                          isExpanded: true,
-                          value: selectedHospital,
-                          hint: Text(
-                            'Choose a hospital',
-                            style: AppTextStyles.body1.copyWith(
-                              color: AppColors.textMuted,
-                            ),
-                          ),
-                          icon: const Icon(
-                            Icons.keyboard_arrow_down_rounded,
-                            color: AppColors.primary,
-                          ),
-                          items: hospitals
-                              .map((h) => DropdownMenuItem(
-                                    value: h,
-                                    child: Text(h, style: AppTextStyles.body1),
-                                  ))
-                              .toList(),
-                          onChanged: (v) => setState(() => selectedHospital = v),
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 32),
-
-                  // Confirm Button
-                  FadeInUp(
-                    delay: const Duration(milliseconds: 350),
-                    duration: const Duration(milliseconds: 400),
-                    child: _GradientButton(
-                      label: 'Confirm Appointment',
-                      icon: Icons.check_circle_rounded,
-                      enabled: selectedDate != null && selectedHospital != null,
-                      onTap: () => setState(() => _donated = true),
-                    ),
+                  Text(
+                    'Book your appointment today',
+                    style: AppTextStyles.body2.copyWith(color: Colors.white70),
                   ),
                 ],
               ),
             ),
-          const SizedBox(height: 32),
-        ],
+
+            const SizedBox(height: 20),
+
+            if (_donated)
+              _DonationSuccess()
+            else
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Blood Group Card
+                    FadeInUp(
+                      duration: const Duration(milliseconds: 400),
+                      child: _BloodGroupCard(),
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    // Date Selection
+                    FadeInUp(
+                      delay: const Duration(milliseconds: 100),
+                      duration: const Duration(milliseconds: 400),
+                      child: Text(
+                        'Select Date',
+                        style: AppTextStyles.subtitle1,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    FadeInUp(
+                      delay: const Duration(milliseconds: 150),
+                      duration: const Duration(milliseconds: 400),
+                      child: _PickerTile(
+                        icon: Icons.calendar_today_rounded,
+                        label: selectedDate == null
+                            ? 'Choose a date'
+                            : '${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}',
+                        onTap: () async {
+                          final date = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime.now(),
+                            lastDate: DateTime.now().add(
+                              const Duration(days: 90),
+                            ),
+                            builder: (context, child) {
+                              return Theme(
+                                data: Theme.of(context).copyWith(
+                                  colorScheme: const ColorScheme.light(
+                                    primary: AppColors.primary,
+                                  ),
+                                ),
+                                child: child!,
+                              );
+                            },
+                          );
+                          if (date != null) setState(() => selectedDate = date);
+                        },
+                      ),
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    // Hospital Selection
+                    FadeInUp(
+                      delay: const Duration(milliseconds: 200),
+                      duration: const Duration(milliseconds: 400),
+                      child: Text(
+                        'Select Hospital',
+                        style: AppTextStyles.subtitle1,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    FadeInUp(
+                      delay: const Duration(milliseconds: 250),
+                      duration: const Duration(milliseconds: 400),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(
+                            AppBorderRadius.md,
+                          ),
+                          border: Border.all(color: AppColors.borderColor),
+                          boxShadow: AppShadows.card,
+                        ),
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            isExpanded: true,
+                            value: selectedHospital,
+                            hint: Text(
+                              'Choose a hospital',
+                              style: AppTextStyles.body1.copyWith(
+                                color: AppColors.textMuted,
+                              ),
+                            ),
+                            icon: const Icon(
+                              Icons.keyboard_arrow_down_rounded,
+                              color: AppColors.primary,
+                            ),
+                            items: hospitals
+                                .map(
+                                  (h) => DropdownMenuItem(
+                                    value: h,
+                                    child: Text(h, style: AppTextStyles.body1),
+                                  ),
+                                )
+                                .toList(),
+                            onChanged: (v) =>
+                                setState(() => selectedHospital = v),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 32),
+
+                    // Confirm Button
+                    FadeInUp(
+                      delay: const Duration(milliseconds: 350),
+                      duration: const Duration(milliseconds: 400),
+                      child: _GradientButton(
+                        label: 'Confirm Appointment',
+                        icon: Icons.check_circle_rounded,
+                        enabled:
+                            selectedDate != null && selectedHospital != null,
+                        onTap: () => setState(() => _donated = true),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            const SizedBox(height: 32),
+          ],
+        ),
       ),
     );
   }
@@ -205,7 +222,11 @@ class _BloodGroupCard extends StatelessWidget {
               boxShadow: AppShadows.button,
             ),
             alignment: Alignment.center,
-            child: const Icon(Icons.water_drop_rounded, color: Colors.white, size: 28),
+            child: const Icon(
+              Icons.water_drop_rounded,
+              color: Colors.white,
+              size: 28,
+            ),
           ),
           const SizedBox(width: 14),
           Expanded(
@@ -215,7 +236,9 @@ class _BloodGroupCard extends StatelessWidget {
                 Text('Your Blood Group', style: AppTextStyles.body2),
                 Text(
                   'O+',
-                  style: AppTextStyles.heading2.copyWith(color: AppColors.primary),
+                  style: AppTextStyles.heading2.copyWith(
+                    color: AppColors.primary,
+                  ),
                 ),
               ],
             ),
@@ -244,7 +267,11 @@ class _PickerTile extends StatelessWidget {
   final IconData icon;
   final String label;
   final VoidCallback onTap;
-  const _PickerTile({required this.icon, required this.label, required this.onTap});
+  const _PickerTile({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -266,7 +293,9 @@ class _PickerTile extends StatelessWidget {
               child: Text(
                 label,
                 style: AppTextStyles.body1.copyWith(
-                  color: label.contains('Choose') ? AppColors.textMuted : AppColors.textPrimary,
+                  color: label.contains('Choose')
+                      ? AppColors.textMuted
+                      : AppColors.textPrimary,
                 ),
               ),
             ),
@@ -283,7 +312,12 @@ class _GradientButton extends StatefulWidget {
   final IconData icon;
   final bool enabled;
   final VoidCallback onTap;
-  const _GradientButton({required this.label, required this.icon, required this.enabled, required this.onTap});
+  const _GradientButton({
+    required this.label,
+    required this.icon,
+    required this.enabled,
+    required this.onTap,
+  });
 
   @override
   State<_GradientButton> createState() => _GradientButtonState();
@@ -296,7 +330,12 @@ class _GradientButtonState extends State<_GradientButton> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTapDown: widget.enabled ? (_) => setState(() => _pressed = true) : null,
-      onTapUp: widget.enabled ? (_) { setState(() => _pressed = false); widget.onTap(); } : null,
+      onTapUp: widget.enabled
+          ? (_) {
+              setState(() => _pressed = false);
+              widget.onTap();
+            }
+          : null,
       onTapCancel: () => setState(() => _pressed = false),
       child: AnimatedScale(
         scale: _pressed ? 0.96 : 1.0,
@@ -308,7 +347,9 @@ class _GradientButtonState extends State<_GradientButton> {
           decoration: BoxDecoration(
             gradient: widget.enabled
                 ? AppColors.primaryGradient
-                : const LinearGradient(colors: [Color(0xFFBDBDBD), Color(0xFFBDBDBD)]),
+                : const LinearGradient(
+                    colors: [Color(0xFFBDBDBD), Color(0xFFBDBDBD)],
+                  ),
             borderRadius: BorderRadius.circular(AppBorderRadius.circle),
             boxShadow: widget.enabled ? AppShadows.button : [],
           ),
@@ -344,7 +385,11 @@ class _DonationSuccess extends StatelessWidget {
                 shape: BoxShape.circle,
                 boxShadow: AppShadows.fab,
               ),
-              child: const Icon(Icons.water_drop_rounded, color: Colors.white, size: 52),
+              child: const Icon(
+                Icons.water_drop_rounded,
+                color: Colors.white,
+                size: 52,
+              ),
             ),
             const SizedBox(height: 24),
             Text('Appointment Booked!', style: AppTextStyles.heading2),
@@ -352,7 +397,9 @@ class _DonationSuccess extends StatelessWidget {
             Text(
               '🎉 Thank you for saving a life!\nEvery drop counts ❤️',
               textAlign: TextAlign.center,
-              style: AppTextStyles.body1.copyWith(color: AppColors.textSecondary),
+              style: AppTextStyles.body1.copyWith(
+                color: AppColors.textSecondary,
+              ),
             ),
             const SizedBox(height: 24),
             Row(
